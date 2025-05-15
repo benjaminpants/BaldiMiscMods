@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="0Harmony">
+			<HintPath>..\Dependencies\0Harmony.dll</HintPath>
+		</Reference>
+		<Reference Include="AlmostEngine.Shared">
+			<HintPath>..\Dependencies\AlmostEngine.Shared.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>..\Dependencies\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx">
+			<HintPath>..\Dependencies\BepInEx.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx.Harmony">
+			<HintPath>..\Dependencies\BepInEx.Harmony.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx.Preloader">
+			<HintPath>..\Dependencies\BepInEx.Preloader.dll</HintPath>
+		</Reference>
+		<Reference Include="MTM101BaldAPI">
+			<HintPath>..\Dependencies\MTM101BaldAPI.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>..\Dependencies\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AudioModule">
+			<HintPath>..\Dependencies\UnityEngine.AudioModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>..\Dependencies\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+			<HintPath>..\Dependencies\UnityEngine.UI.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UIElementsModule">
+			<HintPath>..\Dependencies\UnityEngine.UIElementsModule.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+</Project>
