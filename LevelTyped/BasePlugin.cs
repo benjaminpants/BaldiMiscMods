@@ -16,7 +16,7 @@ using BepInEx.Configuration;
 namespace LevelTyped
 {
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
-    [BepInPlugin("mtm101.rulerp.baldiplus.leveltyped", "Level Typed", "1.1.0.0")]
+    [BepInPlugin("mtm101.rulerp.baldiplus.leveltyped", "Level Typed", "1.2.0.0")]
     public class LevelTypedPlugin : BaseUnityPlugin
     {
         public AssetManager assetMan = new AssetManager();
@@ -517,6 +517,115 @@ It is recommended to leave this to true, as turning it off will likely cause cra
                 });
                 schoolhouseObject.forcedStructures = schoolStructures.ToArray();
 
+                schoolhouseObject.potentialStructures = new WeightedStructureWithParameters[]
+                {
+                    new WeightedStructureWithParameters()
+                    {
+                        weight=75,
+                        selection=new StructureWithParameters()
+                        {
+                            parameters = new StructureParameters()
+                            {
+                                minMax = new IntVector2[]
+                                {
+                                    new IntVector2(1,Mathf.Max(levelId,1)),
+                                    new IntVector2(0,12)
+                                }
+                            },
+                            prefab = assetMan.Get<StructureBuilder>("Rotohall_Structure")
+                        }
+                    },
+                    new WeightedStructureWithParameters()
+                    {
+                        weight=100,
+                        selection=new StructureWithParameters()
+                        {
+                            parameters = new StructureParameters()
+                            {
+                                minMax = new IntVector2[]
+                                {
+                                    new IntVector2(2,3),
+                                    new IntVector2(4,8)
+                                },
+                                chance = new float[] { 1f }
+                            },
+                            prefab = assetMan.Get<StructureBuilder>("SteamValveConstructor")
+                        }
+                    },
+                    new WeightedStructureWithParameters()
+                    {
+                        weight=100,
+                        selection=new StructureWithParameters()
+                        {
+                            parameters = new StructureParameters()
+                            {
+                                minMax = new IntVector2[]
+                                {
+                                    new IntVector2(2,3),
+                                    new IntVector2(2,7),
+                                    new IntVector2(20,20)
+                                }
+                            },
+                            prefab = assetMan.Get<StructureBuilder>("Structure_Vent")
+                        }
+                    },
+                    new WeightedStructureWithParameters()
+                    {
+                        weight=100,
+                        selection=new StructureWithParameters()
+                        {
+                            parameters = new StructureParameters()
+                            {
+                                minMax = new IntVector2[]
+                                {
+                                    new IntVector2(8,12),
+                                    new IntVector2(2,3),
+                                },
+                                chance = new float[] { 1f }
+                            },
+                            prefab = assetMan.Get<StructureBuilder>("LockdownDoorConstructor")
+                        }
+                    },
+                    new WeightedStructureWithParameters()
+                    {
+                        weight=75,
+                        selection=new StructureWithParameters()
+                        {
+                            parameters = new StructureParameters()
+                            {
+                                minMax = new IntVector2[]
+                                {
+                                    new IntVector2(8,6),
+                                    new IntVector2(2,2),
+                                },
+                                chance = new float[] { 1f }
+                            },
+                            prefab = assetMan.Get<StructureBuilder>("FacultyOnlyDoorConstructor")
+                        }
+                    },
+                    new WeightedStructureWithParameters()
+                    {
+                        weight=75,
+                        selection=new StructureWithParameters()
+                        {
+                            parameters = new StructureParameters()
+                            {
+                                minMax = new IntVector2[]
+                                {
+                                    new IntVector2(2,3),
+                                    new IntVector2(0,0),
+                                    new IntVector2(3,3),
+                                    new IntVector2(0,30),
+                                },
+                                chance = new float[] { 0f }
+                            },
+                            prefab = assetMan.Get<StructureBuilder>("PowerLeverConstructor")
+                        }
+                    }
+                };
+                schoolhouseObject.minSpecialBuilders = levelId;
+                schoolhouseObject.maxSpecialBuilders = levelId;
+
                 schoolhouseObject.maxItemValue += 150;
 
                 schoolhouseObject.skybox = assetMan.Get<Cubemap>((levelId >= 3 ? "Cubemap_Twilight" : "Cubemap_DayStandard"));
@@ -540,6 +649,9 @@ It is recommended to leave this to true, as turning it off will likely cause cra
             {
                 // this applies to all levels
                 CustomLevelObject factoryObject = standardObject.MakeClone();
+                factoryObject.potentialStructures = new WeightedStructureWithParameters[] { };
+                factoryObject.minSpecialBuilders = 0;
+                factoryObject.maxSpecialBuilders = 0;
                 factoryObject.name = factoryObject.name.Replace("(Clone)", "").Replace("Schoolhouse", "Factory");
                 factoryObject.type = LevelType.Factory;
 
@@ -645,6 +757,9 @@ It is recommended to leave this to true, as turning it off will likely cause cra
             {
                 // this applies to all levels
                 CustomLevelObject maintenanceObject = standardObject.MakeClone();
+                maintenanceObject.potentialStructures = new WeightedStructureWithParameters[] { };
+                maintenanceObject.minSpecialBuilders = 0;
+                maintenanceObject.maxSpecialBuilders = 0;
                 maintenanceObject.name = maintenanceObject.name.Replace("(Clone)", "").Replace("Schoolhouse", "Maintenance");
                 maintenanceObject.type = LevelType.Maintenance;
 
@@ -772,6 +887,9 @@ It is recommended to leave this to true, as turning it off will likely cause cra
             if (!supportedTypes.Contains(LevelType.Laboratory))
             {
                 CustomLevelObject laboratoryObject = standardObject.MakeClone();
+                laboratoryObject.potentialStructures = new WeightedStructureWithParameters[] { };
+                laboratoryObject.minSpecialBuilders = 0;
+                laboratoryObject.maxSpecialBuilders = 0;
                 laboratoryObject.name = laboratoryObject.name.Replace("(Clone)", "").Replace("Schoolhouse", "Laboratory");
                 laboratoryObject.type = LevelType.Laboratory;
 

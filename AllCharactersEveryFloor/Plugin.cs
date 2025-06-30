@@ -14,7 +14,7 @@ using UnityEngine;
 namespace AllCharactersEveryFloor
 {
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
-    [BepInPlugin("mtm101.rulerp.bbplus.allcharacterseveryfloor", "All Characters Every Floor", "1.2.0.0")]
+    [BepInPlugin("mtm101.rulerp.bbplus.allcharacterseveryfloor", "All Characters Every Floor", "1.2.0.1")]
     public class AllCharactersEveryFloorPlugin : BaseUnityPlugin
     {
         void Awake()
@@ -28,6 +28,7 @@ namespace AllCharactersEveryFloor
                 });
             }, true);*/
             ModdedSaveGame.AddSaveHandler(this.Info);
+            ModdedHighscoreManager.AddModToList(Info);
         }
 
         void GeneratorChanges(string levelName, int levelId, SceneObject obj)
