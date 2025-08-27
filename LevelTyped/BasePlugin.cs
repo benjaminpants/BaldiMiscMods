@@ -64,8 +64,8 @@ namespace LevelTyped
             Instance = this;
             GeneratorManagement.Register(this, GenerationModType.Preparation, GeneratorChanges);
             ModdedSaveGame.AddSaveHandler(this.Info);
-            LoadingEvents.RegisterOnAssetsLoaded(Info, LoadEnumerator(), false);
-            LoadingEvents.RegisterOnAssetsLoaded(Info, PostLoadEnumerator(), true);
+            LoadingEvents.RegisterOnAssetsLoaded(Info, LoadEnumerator(), LoadingEventOrder.Pre);
+            LoadingEvents.RegisterOnAssetsLoaded(Info, PostLoadEnumerator(), LoadingEventOrder.Post);
 
             vanillaScenesOnly = Config.Bind("General",
                 "Vanilla BB+ ScenesObjects/Floors only",
@@ -339,6 +339,7 @@ It is recommended to leave this to true, as turning it off will likely cause cra
 
         void GeneratorChanges(string levelName, int levelId, SceneObject obj)
         {
+            if (obj.GetMeta().tags.Contains("debug")) return; // dont create event test variants lol
             if (levelName == "END") return;
             if (vanillaScenesOnly.Value)
             {
