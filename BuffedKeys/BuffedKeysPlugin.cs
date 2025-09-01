@@ -11,13 +11,13 @@ using UnityEngine;
 namespace BuffedKeys
 {
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
-    [BepInPlugin("mtm101.rulerp.baldiplus.buffedkeys", "Buffed Keys", "1.0.0.0")]
+    [BepInPlugin("mtm101.rulerp.baldiplus.buffedkeys", "Buffed Keys", "1.0.0.1")]
     public class BuffedKeysPlugin : BaseUnityPlugin
     {
         void Awake()
         {
             ModdedSaveGame.AddSaveHandler(Info);
-            LoadingEvents.RegisterOnAssetsLoaded(Info, MinorTweaks(), true);
+            LoadingEvents.RegisterOnAssetsLoaded(Info, MinorTweaks(), LoadingEventOrder.Post);
             Harmony harmony = new Harmony("mtm101.rulerp.baldiplus.buffedkeys");
             harmony.PatchAllConditionals();
         }
