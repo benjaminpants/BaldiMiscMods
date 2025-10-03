@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllCharactersEveryFloor", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevelTyped", "LevelTyped\LevelTyped.csproj", "{7F2FB700-45BF-43C0-BA79-91ACF063DC20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuffedKeys", "BuffedKeys\BuffedKeys.csproj", "{53F5CD8C-B5F4-4E47-966D-0AE0FF3380BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuffedKeys", "BuffedKeys\BuffedKeys.csproj", "{53F5CD8C-B5F4-4E47-966D-0AE0FF3380BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnerShoes", "RunnerShoes\RunnerShoes.csproj", "{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{53F5CD8C-B5F4-4E47-966D-0AE0FF3380BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53F5CD8C-B5F4-4E47-966D-0AE0FF3380BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53F5CD8C-B5F4-4E47-966D-0AE0FF3380BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
