@@ -83,7 +83,7 @@ namespace TooManyStickers
                 .SetEnum(stickerEnums["StealthSpeed"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_StealthSpeed"))
                 .Build();
-            new StickerBuilder<ExtendedStickerData>(Info)
+            new StickerBuilder<BoostNextStickerData>(Info)
                 .SetEnum(stickerEnums["BoostNext"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_BoostNext"))
                 .Build();
