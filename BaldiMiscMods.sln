@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevelTyped", "LevelTyped\Le
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuffedKeys", "BuffedKeys\BuffedKeys.csproj", "{53F5CD8C-B5F4-4E47-966D-0AE0FF3380BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnerShoes", "RunnerShoes\RunnerShoes.csproj", "{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunnerShoes", "RunnerShoes\RunnerShoes.csproj", "{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TooManyStickers", "TooManyStickers\TooManyStickers.csproj", "{4E5A4285-1203-4A5E-AA82-1AA10233A57A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FCBA56B-8D60-46E8-B690-9E4CA0BD84B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E5A4285-1203-4A5E-AA82-1AA10233A57A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E5A4285-1203-4A5E-AA82-1AA10233A57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E5A4285-1203-4A5E-AA82-1AA10233A57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E5A4285-1203-4A5E-AA82-1AA10233A57A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
