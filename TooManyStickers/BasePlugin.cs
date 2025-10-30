@@ -19,6 +19,7 @@ namespace TooManyStickers
     [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "0.0.0.0")]
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
+        public static TooManyStickersPlugin Instance;
         public AssetManager assetMan = new AssetManager();
         string[] stickerEnumsToRegister = new string[]
         {
@@ -26,7 +27,9 @@ namespace TooManyStickers
             "StealthSpeed",
             "BoostNext",
             "StickerPackSticker",
-            "PreserveItem"
+            "PreserveItem",
+            "MapShrink",
+            "MoreLocks"
         };
 
         public static Dictionary<string, Sticker> stickerEnums = new Dictionary<string, Sticker>();
@@ -37,6 +40,7 @@ namespace TooManyStickers
             ModdedSaveGame.AddSaveHandler(Info);
             LoadingEvents.RegisterOnAssetsLoaded(Info, LoadAssets(), LoadingEventOrder.Start);
             LoadingEvents.RegisterOnAssetsLoaded(Info, LoadEnumerator(), LoadingEventOrder.Pre);
+            Instance = this;
             Harmony harmony = new Harmony("mtm101.baldiplus.toomanystickers");
             harmony.PatchAllConditionals();
         }
@@ -54,6 +58,21 @@ namespace TooManyStickers
                 {
                     selection = stickerEnums["StealthSpeed"],
                     weight = 100
+                },
+                new WeightedSticker()
+                {
+                    selection = stickerEnums["BoostNext"],
+                    weight = 100
+                },
+                new WeightedSticker()
+                {
+                    selection = stickerEnums["PreserveItem"],
+                    weight = 100
+                },
+                new WeightedSticker()
+                {
+                    selection = stickerEnums["MapShrink"],
+                    weight = 100
                 }
             });
             sceneObj.MarkAsNeverUnload();
@@ -69,7 +88,15 @@ namespace TooManyStickers
 
         IEnumerator LoadEnumerator()
         {
-            yield return 1;
+            yield return 2;
+            yield return "Loading/fetching assets...";
+            List<Texture2D> allTextures = Resources.FindObjectsOfTypeAll<Texture2D>().Where(x => x.GetInstanceID() >= 0).ToList();
+            assetMan.Add("SaloonWall",allTextures.Find(x => x.name == "SaloonWall"));
+            assetMan.Add("Carpet", allTextures.Find(x => x.name == "Carpet"));
+            assetMan.Add("CeilingNoLight", allTextures.Find(x => x.name == "CeilingNoLight"));
+            Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>().Where(x => x.GetInstanceID() >= 0 && x.transform.parent == null).ToArray();
+            assetMan.Add("FluorescentLight", transforms.First(x => x.name == "FluorescentLight"));
+            assetMan.AddFromResourcesNoClones<RoomAsset>();
             yield return "Creating stickers...";
             for (int i = 0; i < stickerEnumsToRegister.Length; i++)
             {
@@ -94,6 +121,16 @@ namespace TooManyStickers
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["PreserveItem"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_PreserveItem"))
+                .Build();
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["MapShrink"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_MapShrink"))
+                .SetAsAffectingGenerator()
+                .Build();
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["MoreLocks"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_MoreLocks"))
+                .SetAsAffectingGenerator()
                 .Build();
         }
     }
