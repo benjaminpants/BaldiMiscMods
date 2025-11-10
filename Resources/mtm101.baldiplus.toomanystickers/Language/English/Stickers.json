@@ -1,0 +1,20 @@
+{"items":[
+{"key":"StickerTitle_SquishReduce","value":"Squish Time Reducer"},
+{"key":"StickerDescription_SquishReduce","value":"Reduces the amount of time squished by 20% of the original time."},
+{"key":"StickerTitle_StealthSpeed","value":"Shadow Speed"},
+{"key":"StickerDescription_StealthSpeed","value":"Increases speed by 20% while hidden."},
+{"key":"StickerTitle_BoostNext","value":"Boost Next"},
+{"key":"StickerDescription_BoostNext","value":"Increases the value of the sticker to the right by two.\nCan be chained with other Boost Next stickers.\nCurrently boosting: {0}."},
+{"key":"StickerTitle_StickerPackSticker","value":"Sticker Pack Sticker"},
+{"key":"StickerDescription_StickerPackSticker","value":"This sticker will transform into a random sticker when applied."},
+{"key":"StickerTitle_PreserveItem","value":"Item Preserve"},
+{"key":"StickerDescription_PreserveItem","value":"Adds an 8% chance that a used item will remain in the inventory."},
+{"key":"StickerTitle_MapShrink","value":"Map Shrink"},
+{"key":"StickerDescription_MapShrink","value":"Reduces the size of the map by 7%. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
+{"key":"StickerTitle_MoreLocks","value":"Extra Locked Room"},
+{"key":"StickerDescription_MoreLocks","value":"Adds an extra locked room to the level. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
+{"key":"StickerTitle_PointInvisibility","value":"Point Invisibility"},
+{"key":"StickerDescription_PointInvisibility","value":"Every time YTPs are earned, 1 second of invisibility is given for each 15 YTPs."},
+{"key":"StickerTitle_AddVents","value":"Vents"},
+{"key":"StickerDescription_AddVents","value":"Adds 3 vents to the level. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."}
+]}

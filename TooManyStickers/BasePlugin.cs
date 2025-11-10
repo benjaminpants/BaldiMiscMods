@@ -10,6 +10,7 @@ using System.Linq;
 using MTM101BaldAPI.ObjectCreation;
 using HarmonyLib;
 using System.Collections.Generic;
+using BepInEx.Logging;
 
 namespace TooManyStickers
 {
@@ -20,6 +21,7 @@ namespace TooManyStickers
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
         public static TooManyStickersPlugin Instance;
+        public static ManualLogSource logger;
         public AssetManager assetMan = new AssetManager();
         string[] stickerEnumsToRegister = new string[]
         {
@@ -29,7 +31,9 @@ namespace TooManyStickers
             "StickerPackSticker",
             "PreserveItem",
             "MapShrink",
-            "MoreLocks"
+            "MoreLocks",
+            "AddVents",
+            "PointInvisibility"
         };
 
         public static Dictionary<string, Sticker> stickerEnums = new Dictionary<string, Sticker>();
@@ -43,47 +47,35 @@ namespace TooManyStickers
             Instance = this;
             Harmony harmony = new Harmony("mtm101.baldiplus.toomanystickers");
             harmony.PatchAllConditionals();
+            logger = Logger;
         }
 
         void GeneratorChanges(string name, int id, SceneObject sceneObj)
         {
             sceneObj.potentialStickers = sceneObj.potentialStickers.AddRangeToArray(new WeightedSticker[]
             {
-                new WeightedSticker()
-                {
-                    selection = stickerEnums["SquishReduce"],
-                    weight = 100
-                },
-                new WeightedSticker()
-                {
-                    selection = stickerEnums["StealthSpeed"],
-                    weight = 100
-                },
-                new WeightedSticker()
-                {
-                    selection = stickerEnums["BoostNext"],
-                    weight = 100
-                },
-                new WeightedSticker()
-                {
-                    selection = stickerEnums["PreserveItem"],
-                    weight = 100
-                },
-                new WeightedSticker()
-                {
-                    selection = stickerEnums["MapShrink"],
-                    weight = 100
-                }
+                new WeightedSticker(stickerEnums["SquishReduce"], 100),
+                new WeightedSticker(stickerEnums["StealthSpeed"], 100),
+                new WeightedSticker(stickerEnums["BoostNext"], 100),
+                new WeightedSticker(stickerEnums["PreserveItem"], 100),
+                new WeightedSticker(stickerEnums["MapShrink"], 100),
+                new WeightedSticker(stickerEnums["StickerPackSticker"], 20),
+                new WeightedSticker(stickerEnums["MoreLocks"], 100),
+                new WeightedSticker(stickerEnums["AddVents"], 100),
+                new WeightedSticker(stickerEnums["PointInvisibility"], 100)
             });
             sceneObj.MarkAsNeverUnload();
         }
 
         IEnumerator LoadAssets()
         {
-            yield return 1;
+            yield return 2;
             yield return "Loading sprites...";
             Sprite[] sprites = AssetLoader.TexturesFromMod(this, "*.png", "StickerSprites").ToSprites(1f);
             assetMan.AddRange<Sprite>(sprites, sprites.Select(x => x.texture.name).ToArray());
+            assetMan.Add<Sprite>("YTPInvisIcon", AssetLoader.SpriteFromMod(this, Vector2.one / 2f, 1f, "YTPInvisibleIcon.png"));
+            yield return "Loading localization...";
+            AssetLoader.LocalizationFromMod(this);
         }
 
         IEnumerator LoadEnumerator()
@@ -97,6 +89,7 @@ namespace TooManyStickers
             Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>().Where(x => x.GetInstanceID() >= 0 && x.transform.parent == null).ToArray();
             assetMan.Add("FluorescentLight", transforms.First(x => x.name == "FluorescentLight"));
             assetMan.AddFromResourcesNoClones<RoomAsset>();
+            assetMan.AddFromResourcesNoClones<Structure_Vent>();
             yield return "Creating stickers...";
             for (int i = 0; i < stickerEnumsToRegister.Length; i++)
             {
@@ -105,32 +98,50 @@ namespace TooManyStickers
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["SquishReduce"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_SquishReduce"))
+                .SetDuplicateOddsMultiplier(0.9f)
                 .Build();
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["StealthSpeed"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_StealthSpeed"))
+                .SetDuplicateOddsMultiplier(0.9f)
                 .Build();
             new StickerBuilder<BoostNextStickerData>(Info)
                 .SetEnum(stickerEnums["BoostNext"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_BoostNext"))
+                .SetDuplicateOddsMultiplier(0.55f)
                 .Build();
             new StickerBuilder<StickerPackStickerData>(Info)
                 .SetEnum(stickerEnums["StickerPackSticker"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_StickerPack"))
+                .SetDuplicateOddsMultiplier(0.1f) // getting multiple of these in a row would be cruel
                 .Build();
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["PreserveItem"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_PreserveItem"))
+                .SetDuplicateOddsMultiplier(0.75f)
                 .Build();
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["MapShrink"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_MapShrink"))
+                .SetDuplicateOddsMultiplier(0.7f)
                 .SetAsAffectingGenerator()
                 .Build();
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["MoreLocks"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_MoreLocks"))
+                .SetDuplicateOddsMultiplier(0.8f)
                 .SetAsAffectingGenerator()
+                .Build();
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["AddVents"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_AddVents"))
+                .SetDuplicateOddsMultiplier(0.75f)
+                .SetAsAffectingGenerator()
+                .Build();
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["PointInvisibility"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_PointInvisibility"))
+                .SetDuplicateOddsMultiplier(0.85f)
                 .Build();
         }
     }

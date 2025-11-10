@@ -14,13 +14,15 @@ namespace TooManyStickers
             ExtendedStickerData extData;
             if ((randomStickers == null) || (randomStickers.Length == 0))
             {
-                extData = StickerMetaStorage.Instance.Get(Sticker.Nothing).value; // lol
+                TooManyStickersPlugin.logger.LogWarning("Sticker Pack sticker had to go to fallback!");
+                StickerMetaData[] allStickers = StickerMetaStorage.Instance.All();
+                extData = allStickers[UnityEngine.Random.Range(0, allStickers.Length)].value;
             }
             else
             {
                 extData = StickerMetaStorage.Instance.Get(WeightedSticker.RandomSelection(randomStickers)).value;
             }
-            return extData.CreateOrGetAppliedStateData(extData.CreateStateData(inventoryState.activeLevel, inventoryState.opened));
+            return extData.CreateOrGetAppliedStateData(extData.CreateStateData(inventoryState.activeLevel, inventoryState.opened, inventoryState.sticky));
         }
     }
 }

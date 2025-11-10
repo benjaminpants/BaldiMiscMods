@@ -32,5 +32,22 @@ namespace TooManyStickers
                 landedOn = activeStickerData[(i + offset) % activeStickerData.Length];
             }
         }
+
+        public override string GetLocalizedAppliedStickerDescription(StickerStateData data)
+        {
+            string outputString = base.GetLocalizedAppliedStickerDescription(data);
+            int index = Array.FindIndex(Singleton<StickerManager>.Instance.activeStickerData, x => x == data);
+            string boostingName = outputString;
+            if (index == -1)
+            {
+                return string.Format(outputString, "ERROR!");
+            }
+            CalculateBoost(index, Singleton<StickerManager>.Instance.activeStickerData, new bool[Singleton<StickerManager>.Instance.activeStickerData.Length], out StickerStateData landedOn, out _);
+            if (landedOn == null)
+            {
+                return string.Format(outputString, LocalizationManager.Instance.GetLocalizedText("StickerTitle_BoostNext"));
+            }
+            return string.Format(outputString, LocalizationManager.Instance.GetLocalizedText($"StickerTitle_{landedOn.sticker.ToStringExtended()}"));
+        }
     }
 }

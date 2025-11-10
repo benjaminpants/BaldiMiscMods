@@ -18,6 +18,26 @@ namespace TooManyStickers.Patches
                 ___levelObject.minSize = new IntVector2(Mathf.CeilToInt(___levelObject.minSize.x - (___levelObject.minSize.x * percentage)), Mathf.CeilToInt(___levelObject.minSize.z - (___levelObject.minSize.z * percentage)));
                 ___levelObject.maxSize = new IntVector2(Mathf.CeilToInt(___levelObject.maxSize.x - (___levelObject.maxSize.x * percentage)), Mathf.CeilToInt(___levelObject.maxSize.z - (___levelObject.maxSize.z * percentage)));
             }
+            // add vents
+            if (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["AddVents"]) > 0)
+            {
+                int ventCount = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["AddVents"]);
+                ___levelObject.forcedStructures = ___levelObject.forcedStructures.AddToArray(new StructureWithParameters()
+                {
+                    prefab = TooManyStickersPlugin.Instance.assetMan.Get<Structure_Vent>("Structure_Vent"),
+                    parameters = new StructureParameters()
+                    {
+                        chance = new float[0],
+                        prefab = new WeightedGameObject[0],
+                        minMax = new IntVector2[]
+                        {
+                            new IntVector2(ventCount * 3, ventCount * 3),
+                            new IntVector2(2,5),
+                            new IntVector2(22 + ventCount, 22 + ventCount)
+                        }
+                    }
+                });
+            }
         }
     }
 
