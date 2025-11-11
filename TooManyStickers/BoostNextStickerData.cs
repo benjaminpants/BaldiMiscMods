@@ -35,7 +35,7 @@ namespace TooManyStickers
 
         public override string GetLocalizedAppliedStickerDescription(StickerStateData data)
         {
-            string outputString = base.GetLocalizedAppliedStickerDescription(data);
+            string outputString = base.GetLocalizedAppliedStickerDescription(data) + LocalizationManager.Instance.GetLocalizedText("BoostNext_BoostText");
             int index = Array.FindIndex(Singleton<StickerManager>.Instance.activeStickerData, x => x == data);
             string boostingName = outputString;
             if (index == -1)

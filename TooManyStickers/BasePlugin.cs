@@ -42,6 +42,7 @@ namespace TooManyStickers
         {
             GeneratorManagement.Register(this, GenerationModType.Addend, GeneratorChanges);
             ModdedSaveGame.AddSaveHandler(Info);
+            ModdedHighscoreManager.AddModToList(Info);
             LoadingEvents.RegisterOnAssetsLoaded(Info, LoadAssets(), LoadingEventOrder.Start);
             LoadingEvents.RegisterOnAssetsLoaded(Info, LoadEnumerator(), LoadingEventOrder.Pre);
             Instance = this;
@@ -52,18 +53,22 @@ namespace TooManyStickers
 
         void GeneratorChanges(string name, int id, SceneObject sceneObj)
         {
-            sceneObj.potentialStickers = sceneObj.potentialStickers.AddRangeToArray(new WeightedSticker[]
-            {
+            List<WeightedSticker> potentialStickersToAdd = new List<WeightedSticker>() {
                 new WeightedSticker(stickerEnums["SquishReduce"], 100),
                 new WeightedSticker(stickerEnums["StealthSpeed"], 100),
-                new WeightedSticker(stickerEnums["BoostNext"], 100),
+                new WeightedSticker(stickerEnums["BoostNext"], 30),
                 new WeightedSticker(stickerEnums["PreserveItem"], 100),
                 new WeightedSticker(stickerEnums["MapShrink"], 100),
                 new WeightedSticker(stickerEnums["StickerPackSticker"], 20),
                 new WeightedSticker(stickerEnums["MoreLocks"], 100),
                 new WeightedSticker(stickerEnums["AddVents"], 100),
                 new WeightedSticker(stickerEnums["PointInvisibility"], 100)
-            });
+            };
+            if (sceneObj.GetMeta().tags.Contains("endless"))
+            {
+                potentialStickersToAdd.RemoveAll(x => StickerMetaStorage.Instance.Get(x.selection).value.affectsLevelGeneration);
+            }
+            sceneObj.potentialStickers = sceneObj.potentialStickers.AddRangeToArray(potentialStickersToAdd.ToArray());
             sceneObj.MarkAsNeverUnload();
         }
 
