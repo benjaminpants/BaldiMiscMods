@@ -14,7 +14,7 @@ namespace TooManyStickers.Patches
         {
             if (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["MapShrink"]) > 0)
             {
-                float percentage = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["MapShrink"]) * 0.07f;
+                float percentage = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["MapShrink"]) * 0.09f;
                 ___levelObject.minSize = new IntVector2(Mathf.CeilToInt(___levelObject.minSize.x - (___levelObject.minSize.x * percentage)), Mathf.CeilToInt(___levelObject.minSize.z - (___levelObject.minSize.z * percentage)));
                 ___levelObject.maxSize = new IntVector2(Mathf.CeilToInt(___levelObject.maxSize.x - (___levelObject.maxSize.x * percentage)), Mathf.CeilToInt(___levelObject.maxSize.z - (___levelObject.maxSize.z * percentage)));
             }

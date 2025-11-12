@@ -57,12 +57,12 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["SquishReduce"], 100),
                 new WeightedSticker(stickerEnums["StealthSpeed"], 100),
                 new WeightedSticker(stickerEnums["BoostNext"], 30),
-                new WeightedSticker(stickerEnums["PreserveItem"], 100),
-                new WeightedSticker(stickerEnums["MapShrink"], 100),
+                new WeightedSticker(stickerEnums["PreserveItem"], 60),
+                new WeightedSticker(stickerEnums["MapShrink"], 60),
                 new WeightedSticker(stickerEnums["StickerPackSticker"], 20),
-                new WeightedSticker(stickerEnums["MoreLocks"], 100),
-                new WeightedSticker(stickerEnums["AddVents"], 100),
-                new WeightedSticker(stickerEnums["PointInvisibility"], 100)
+                new WeightedSticker(stickerEnums["MoreLocks"], 80),
+                new WeightedSticker(stickerEnums["AddVents"], 80),
+                new WeightedSticker(stickerEnums["PointInvisibility"], 75)
             };
             if (sceneObj.GetMeta().tags.Contains("endless"))
             {
@@ -129,6 +129,7 @@ namespace TooManyStickers
                 .SetEnum(stickerEnums["MapShrink"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_MapShrink"))
                 .SetDuplicateOddsMultiplier(0.7f)
+                .SetValueCap(10)
                 .SetAsAffectingGenerator()
                 .Build();
             new StickerBuilder<ExtendedStickerData>(Info)

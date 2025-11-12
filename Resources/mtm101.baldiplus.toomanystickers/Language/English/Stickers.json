@@ -11,7 +11,7 @@
 {"key":"StickerTitle_PreserveItem","value":"Item Preserve"},
 {"key":"StickerDescription_PreserveItem","value":"Adds an 8% chance that a used item will remain in the inventory."},
 {"key":"StickerTitle_MapShrink","value":"Map Shrink"},
-{"key":"StickerDescription_MapShrink","value":"Reduces the size of the map by 7%. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
+{"key":"StickerDescription_MapShrink","value":"Reduces the size of the map by 9%. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
 {"key":"StickerTitle_MoreLocks","value":"Extra Locked Room"},
 {"key":"StickerDescription_MoreLocks","value":"Adds an extra locked room to the level. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
 {"key":"StickerTitle_PointInvisibility","value":"Point Invisibility"},

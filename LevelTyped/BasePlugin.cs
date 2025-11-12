@@ -16,7 +16,7 @@ using BepInEx.Configuration;
 namespace LevelTyped
 {
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
-    [BepInPlugin("mtm101.rulerp.baldiplus.leveltyped", "Level Typed", "1.2.0.1")]
+    [BepInPlugin("mtm101.rulerp.baldiplus.leveltyped", "Level Typed", "1.2.0.2")]
     public class LevelTypedPlugin : BaseUnityPlugin
     {
         public AssetManager assetMan = new AssetManager();
