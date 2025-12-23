@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TooManyStickers.Patches
 {
 
-    public class PlayerStealthSpeedManager : MonoBehaviour
+    public class TooManyStickersPlayerSpeedManager : MonoBehaviour
     {
         public PlayerManager pm;
         public MovementModifier myMoveMod;
@@ -21,13 +21,10 @@ namespace TooManyStickers.Patches
                 myMoveMod = new MovementModifier(Vector3.zero, 1f);
                 pm.plm.Entity.ExternalActivity.moveMods.Add(myMoveMod);
             }
+            myMoveMod.movementMultiplier = 1f;
             if (pm.plm.Entity.Hidden)
             {
-                myMoveMod.movementMultiplier = 1f + (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["StealthSpeed"]) * 0.2f);
-            }
-            else
-            {
-                myMoveMod.movementMultiplier = 1f;
+                myMoveMod.movementMultiplier += (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["StealthSpeed"]) * 0.2f);
             }
         }
     }
@@ -38,7 +35,17 @@ namespace TooManyStickers.Patches
     {
         static void Prefix(PlayerMovement __instance, Entity ___entity)
         {
-            __instance.gameObject.AddComponent<PlayerStealthSpeedManager>().pm = __instance.pm;
+            __instance.gameObject.AddComponent<TooManyStickersPlayerSpeedManager>().pm = __instance.pm;
+        }
+    }
+
+    [HarmonyPatch(typeof(PlayerMovement))]
+    [HarmonyPatch("StaminaMax", MethodType.Getter)]
+    class StaminaMaxPatch
+    {
+        static void Postfix(PlayerMovement __instance, ref float __result)
+        {
+            __result -= Mathf.Min((__instance.staminaMax * (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["Daredevil_LessStamina"])) * 0.30f), __result - 1f);
         }
     }
 }

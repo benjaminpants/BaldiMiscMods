@@ -15,8 +15,8 @@ using BepInEx.Logging;
 namespace TooManyStickers
 {
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
-    /*[BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.SoftDependency)]*/
+    [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "0.0.0.0")]
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
@@ -33,10 +33,16 @@ namespace TooManyStickers
             "MapShrink",
             "MoreLocks",
             "AddVents",
-            "PointInvisibility"
+            "PointInvisibility",
+            "Daredevil_LessStamina",
+            "Daredevil_Divide",
+            "Daredevil_BaldiAngry",
+            "Daredevil_LowVision"
         };
 
         public static Dictionary<string, Sticker> stickerEnums = new Dictionary<string, Sticker>();
+
+        public static StickerPackType DaredevilStickerPack;
 
         void Awake()
         {
@@ -62,7 +68,11 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["StickerPackSticker"], 20),
                 new WeightedSticker(stickerEnums["MoreLocks"], 80),
                 new WeightedSticker(stickerEnums["AddVents"], 80),
-                new WeightedSticker(stickerEnums["PointInvisibility"], 75)
+                new WeightedSticker(stickerEnums["PointInvisibility"], 75),
+                new WeightedSticker(stickerEnums["Daredevil_LessStamina"], 100),
+                new WeightedSticker(stickerEnums["Daredevil_Divide"], 100),
+                new WeightedSticker(stickerEnums["Daredevil_BaldiAngry"], 110),
+                new WeightedSticker(stickerEnums["Daredevil_LowVision"], 110)
             };
             if (sceneObj.GetMeta().tags.Contains("endless"))
             {
@@ -85,7 +95,7 @@ namespace TooManyStickers
 
         IEnumerator LoadEnumerator()
         {
-            yield return 2;
+            yield return 4;
             yield return "Loading/fetching assets...";
             List<Texture2D> allTextures = Resources.FindObjectsOfTypeAll<Texture2D>().Where(x => x.GetInstanceID() >= 0).ToList();
             assetMan.Add("SaloonWall",allTextures.Find(x => x.name == "SaloonWall"));
@@ -114,6 +124,7 @@ namespace TooManyStickers
                 .SetEnum(stickerEnums["BoostNext"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_BoostNext"))
                 .SetDuplicateOddsMultiplier(0.55f)
+                .SetTags("tms_dareboost")
                 .Build();
             new StickerBuilder<StickerPackStickerData>(Info)
                 .SetEnum(stickerEnums["StickerPackSticker"])
@@ -149,6 +160,49 @@ namespace TooManyStickers
                 .SetSprite(assetMan.Get<Sprite>("Sticker_PointInvisibility"))
                 .SetDuplicateOddsMultiplier(0.85f)
                 .Build();
+
+
+            yield return "Creating daredevil stickers...";
+            DaredevilStickerPack = EnumExtensions.ExtendEnum<StickerPackType>("Daredevil");
+            // Daredevil Stickers
+            new StickerBuilder<DaredevilStickerData>(Info)
+                .SetEnum(stickerEnums["Daredevil_LessStamina"])
+                .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_LessStamina"))
+                .SetTags("tms_daredevil")
+                .SetDuplicateOddsMultiplier(0.9f)
+                .SetValueCap(3) // i dont like doing this but like. anything higher will result in negatives and negative stamina = bad.
+                .Build();
+
+            new StickerBuilder<DaredevilStickerData>(Info)
+                .SetEnum(stickerEnums["Daredevil_Divide"])
+                .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_Divide"))
+                .SetTags("tms_daredevil")
+                .SetDuplicateOddsMultiplier(0.9f)
+                .SetValueCap(4) // any further has no effect, maybe in the future i can add some kind of dapenening so higher values have a barely noticable effect but for now...
+                .Build();
+
+            new StickerBuilder<DaredevilStickerData>(Info)
+                .SetEnum(stickerEnums["Daredevil_BaldiAngry"])
+                .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_BaldiAngry"))
+                .SetTags("tms_daredevil")
+                .SetDuplicateOddsMultiplier(0.9f)
+                .Build();
+
+            new StickerBuilder<DaredevilStickerData>(Info)
+                .SetEnum(stickerEnums["Daredevil_LowVision"])
+                .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_LowVision"))
+                .SetTags("tms_daredevil")
+                .SetDuplicateOddsMultiplier(0.9f)
+                .Build();
+
+            yield return "Modifying metadata...";
+            StickerMetaStorage.Instance.Get(Sticker.GlueStick).tags.Add("tms_always_in_stickerpack_sticker");
+            StickerMetaStorage.Instance.Get(Sticker.Stamina).tags.Add("tms_always_in_stickerpack_sticker");
+            // add dareboosts to any that i think deserve them
+            StickerMetaStorage.Instance.Get(Sticker.InventorySlot).tags.Add("tms_dareboost");
+            StickerMetaStorage.Instance.Get(Sticker.YtpMulitplier).tags.Add("tms_dareboost");
+            StickerMetaStorage.Instance.Get(Sticker.BaldiPraise).tags.Add("tms_dareboost");
+            StickerMetaStorage.Instance.Get(Sticker.Elevator).tags.Add("tms_dareboost");
         }
     }
 }

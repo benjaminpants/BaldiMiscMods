@@ -77,4 +77,14 @@ namespace TooManyStickers.Patches
             }
         }
     }
+
+    [HarmonyPatch(typeof(BaseGameManager))]
+    [HarmonyPatch("AngerBaldi")]
+    class AngerBaldiPatch
+    {
+        static void Prefix(ref float val)
+        {
+            val += val * Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["Daredevil_BaldiAngry"]) * 0.25f;
+        }
+    }
 }

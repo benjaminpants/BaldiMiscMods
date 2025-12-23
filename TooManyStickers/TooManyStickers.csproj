@@ -26,6 +26,15 @@
 		<Reference Include="MTM101BaldAPI">
 			<HintPath>..\Dependencies\MTM101BaldAPI.dll</HintPath>
 		</Reference>
+		<Reference Include="PlusLevelStudio">
+		  <HintPath>..\ExtraDepends\PlusLevelStudio.dll</HintPath>
+		</Reference>
+		<Reference Include="PlusStudioLevelFormat">
+		  <HintPath>..\ExtraDepends\PlusStudioLevelFormat.dll</HintPath>
+		</Reference>
+		<Reference Include="PlusStudioLevelLoader">
+		  <HintPath>..\ExtraDepends\PlusStudioLevelLoader.dll</HintPath>
+		</Reference>
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>..\Dependencies\Unity.TextMeshPro.dll</HintPath>
 		</Reference>
