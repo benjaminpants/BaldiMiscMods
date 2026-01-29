@@ -11,6 +11,8 @@ using MTM101BaldAPI.ObjectCreation;
 using HarmonyLib;
 using System.Collections.Generic;
 using BepInEx.Logging;
+using MTM101BaldAPI.Reflection;
+using System.Reflection;
 
 namespace TooManyStickers
 {
@@ -37,7 +39,9 @@ namespace TooManyStickers
             "Daredevil_LessStamina",
             "Daredevil_Divide",
             "Daredevil_BaldiAngry",
-            "Daredevil_LowVision"
+            "Daredevil_LowVision",
+            "Daredevil_Gum",
+            "Daredevil_Dud"
         };
 
         public static Dictionary<string, Sticker> stickerEnums = new Dictionary<string, Sticker>();
@@ -72,7 +76,8 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["Daredevil_LessStamina"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_Divide"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_BaldiAngry"], 110),
-                new WeightedSticker(stickerEnums["Daredevil_LowVision"], 110)
+                new WeightedSticker(stickerEnums["Daredevil_LowVision"], 90),
+                new WeightedSticker(stickerEnums["Daredevil_Dud"], 2)
             };
             if (sceneObj.GetMeta().tags.Contains("endless"))
             {
@@ -89,18 +94,30 @@ namespace TooManyStickers
             Sprite[] sprites = AssetLoader.TexturesFromMod(this, "*.png", "StickerSprites").ToSprites(1f);
             assetMan.AddRange<Sprite>(sprites, sprites.Select(x => x.texture.name).ToArray());
             assetMan.Add<Sprite>("YTPInvisIcon", AssetLoader.SpriteFromMod(this, Vector2.one / 2f, 1f, "YTPInvisibleIcon.png"));
+            assetMan.Add<Sprite>("JohnnyTeleporter", AssetLoader.SpriteFromMod(this, new Vector2(0.4168f, 0.4198f), 28f, "JohnnyTeleporter.png"));
+            assetMan.Add<Sprite>("JohnnyTeleporter_Press", AssetLoader.SpriteFromMod(this, new Vector2(0.4168f, 0.4198f), 28f, "JohnnyTeleporter_Press.png"));
+            assetMan.Add<SoundObject>("Jon_Daredevils", ObjectCreators.CreateSoundObject(AssetLoader.AudioClipFromMod(this, "Jon_Daredevils.wav"), "Vfx_Jon_Daredevils", SoundType.Voice, Color.white));
             yield return "Loading localization...";
             AssetLoader.LocalizationFromMod(this);
         }
 
         IEnumerator LoadEnumerator()
         {
-            yield return 4;
+            yield return 6;
             yield return "Loading/fetching assets...";
+
+            List<Sprite> allSprites = Resources.FindObjectsOfTypeAll<Sprite>().Where(x => x.GetInstanceID() >= 0).ToList();
+            assetMan.Add<Sprite>("JohnnyMouthSheet_0", allSprites.First(x => x.name == "JohnnyMouthSheet_0"));
+            assetMan.Add<Sprite>("JohnnyMouthSheet_1", allSprites.First(x => x.name == "JohnnyMouthSheet_1"));
+            assetMan.Add<Sprite>("JohnnyMouthSheet_2", allSprites.First(x => x.name == "JohnnyMouthSheet_2"));
+            assetMan.Add<Sprite>("JohnnyMouthSheet_3", allSprites.First(x => x.name == "JohnnyMouthSheet_3"));
+            assetMan.Add<Sprite>("JohnnyMouthSheet_4", allSprites.First(x => x.name == "JohnnyMouthSheet_4"));
+
             List<Texture2D> allTextures = Resources.FindObjectsOfTypeAll<Texture2D>().Where(x => x.GetInstanceID() >= 0).ToList();
             assetMan.Add("SaloonWall",allTextures.Find(x => x.name == "SaloonWall"));
             assetMan.Add("Carpet", allTextures.Find(x => x.name == "Carpet"));
             assetMan.Add("CeilingNoLight", allTextures.Find(x => x.name == "CeilingNoLight"));
+            assetMan.Add<SoundObject>("TeleportSound", (SoundObject)(((ITM_Teleporter)ItemMetaStorage.Instance.FindByEnum(Items.Teleporter).value.item).ReflectionGetVariable("audTeleport")));
             Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>().Where(x => x.GetInstanceID() >= 0 && x.transform.parent == null).ToArray();
             assetMan.Add("FluorescentLight", transforms.First(x => x.name == "FluorescentLight"));
             assetMan.AddFromResourcesNoClones<RoomAsset>();
@@ -195,6 +212,36 @@ namespace TooManyStickers
                 .SetDuplicateOddsMultiplier(0.9f)
                 .Build();
 
+            new StickerBuilder<GumDaredevilStickerData>(Info)
+                .SetEnum(stickerEnums["Daredevil_Gum"])
+                .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_Gum"))
+                .SetTags("tms_daredevil", "tms_daredevil_allowleave")
+                .SetDuplicateOddsMultiplier(0.9f)
+                .Build();
+
+            new StickerBuilder<DaredevilStickerData>(Info)
+                .SetEnum(stickerEnums["Daredevil_Dud"])
+                .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_Dud"))
+                .SetTags("tms_daredevil")
+                .Build();
+
+            yield return "Creating daredevil sticker pack...";
+            ItemObject stickerTemplate = ItemMetaStorage.Instance.FindByEnum(Items.StickerPack).value;
+            ItemObject daredevilPack = new ItemBuilder(Info)
+                .SetEnum(Items.StickerPack)
+                .SetShopPrice(400)
+                .SetGeneratorCost(stickerTemplate.value)
+                .SetAsInstantUse()
+                .SetSprites(stickerTemplate.itemSpriteSmall, stickerTemplate.itemSpriteLarge)
+                .SetNameAndDescription("Itm_StickerPack", "Desc_StickerPack_Daredevil")
+                .SetItemComponent<ITM_StickerPack>()
+                .Build();
+
+            ITM_StickerPack daredevilStickerItem = ((ITM_StickerPack)daredevilPack.item);
+            daredevilStickerItem.ReflectionSetVariable("type", DaredevilStickerPack);
+            daredevilStickerItem.ReflectionSetVariable("total", 2);
+            assetMan.Add<ItemObject>("daredevilPack", daredevilPack);
+
             yield return "Modifying metadata...";
             StickerMetaStorage.Instance.Get(Sticker.GlueStick).tags.Add("tms_always_in_stickerpack_sticker");
             StickerMetaStorage.Instance.Get(Sticker.Stamina).tags.Add("tms_always_in_stickerpack_sticker");
@@ -203,6 +250,24 @@ namespace TooManyStickers
             StickerMetaStorage.Instance.Get(Sticker.YtpMulitplier).tags.Add("tms_dareboost");
             StickerMetaStorage.Instance.Get(Sticker.BaldiPraise).tags.Add("tms_dareboost");
             StickerMetaStorage.Instance.Get(Sticker.Elevator).tags.Add("tms_dareboost");
+
+            yield return "Modifying pitstop...";
+            RoomAsset pitstopRoomAsset = Resources.FindObjectsOfTypeAll<RoomAsset>().First(x => ((UnityEngine.Object)x).name == "Room_JohnnysStore");
+            Transform roomBase = pitstopRoomAsset.roomFunctionContainer.transform.Find("RoomBase");
+
+            // unity is stupid so i can't pass in "roomBase.Find("Stickers")" into Instantiate like how i'd like.
+            roomBase.Find("Stickers").Find("StickerPickup_8").gameObject.SetActive(false);
+            Pickup stickerPickupClone = GameObject.Instantiate<Pickup>(roomBase.Find("Stickers").Find("StickerPickup_8").GetComponent<Pickup>());
+            roomBase.Find("Stickers").Find("StickerPickup_8").gameObject.SetActive(true);
+            stickerPickupClone.transform.SetParent(roomBase.Find("Stickers"), false);
+            stickerPickupClone.gameObject.SetActive(true);
+            stickerPickupClone.name = "StickerPickup_Daredevil";
+            stickerPickupClone.item = daredevilPack;
+            stickerPickupClone.transform.localPosition = new Vector3(60f, 5f, 47f);
+            //pitstopRoomAsset.roomFunctionContainer.AddFunction(pitstopRoomAsset.roomFunctionContainer.gameObject.AddComponent<CloseWithDaredevilRoomFunction>());
+            StoreRoomFunction storeRF = pitstopRoomAsset.roomFunctionContainer.GetComponent<StoreRoomFunction>();
+            FieldInfo _stickerPickup = AccessTools.Field(typeof(StoreRoomFunction), "stickerPickup");
+            _stickerPickup.SetValue(storeRF, ((Pickup[])_stickerPickup.GetValue(storeRF)).AddToArray(stickerPickupClone));
         }
     }
 }

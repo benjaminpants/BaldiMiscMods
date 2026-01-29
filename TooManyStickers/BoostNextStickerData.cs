@@ -21,6 +21,11 @@ namespace TooManyStickers
         {
             landedOn = null;
             addition = 0;
+            if (i < 0)
+            {
+                TooManyStickersPlugin.logger.LogWarning("CalculateBoost passed index less than zero!");
+                return;
+            }
             int offset = 0;
             int attempts = 0;
             while (!alreadyProcessed[(i + offset) % activeStickerData.Length] && activeStickerData[(i + offset) % activeStickerData.Length].sticker == TooManyStickersPlugin.stickerEnums["BoostNext"])

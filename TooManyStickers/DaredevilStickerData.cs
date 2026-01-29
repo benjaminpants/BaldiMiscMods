@@ -8,6 +8,7 @@ namespace TooManyStickers
 {
     public class DaredevilStickerData : ExtendedStickerData
     {
+        public virtual bool canBeForceApplied => true;
         // daredevil stickers cannot be removed once applied.
         // they can only be removed once the level is completed.
         public override bool CanBeCovered(StickerStateData data)
@@ -26,9 +27,24 @@ namespace TooManyStickers
             StickerStateData myState = CreateStateData(0, true, false);
             for (int i = 0; i < toTest.Length; i++)
             {
-                if (StickerMetaStorage.Instance.Get(toTest[i].sticker).value.CanBeCovered(myState)) return true;
+                if (StickerMetaStorage.Instance.Get(toTest[i].sticker).value.CanBeCovered(toTest[i]) && CouldCoverSticker(Singleton<StickerManager>.Instance, myState, toTest[i], -1, i)) return true;
             }
             return false;
+        }
+    }
+
+    public class GumDaredevilStickerData : DaredevilStickerData
+    {
+        public override bool canBeForceApplied => false;
+        public override bool TestIfCanBeGiven(StickerStateData[] toTest)
+        {
+            return true;
+        }
+
+        public override void ApplySticker(StickerManager manager, StickerStateData inventoryState, int slot)
+        {
+            // Do literally nothing for now
+            //base.ApplySticker(manager, inventoryState, slot);
         }
     }
 }

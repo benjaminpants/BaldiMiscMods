@@ -2,6 +2,7 @@
 using MTM101BaldAPI;
 using MTM101BaldAPI.Registers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -38,13 +39,13 @@ namespace TooManyStickers.Patches
             int daredevilsToGive = 0;
             while (true)
             {
-                if (UnityEngine.Random.Range(0f, 1f) >= 0.2f) break;
+                if (UnityEngine.Random.Range(0f, 1f) >= 0.5f) break;
                 daredevilsToGive++;
             }
             if (daredevilsToGive > 0)
             {
                 // give daredevils first
-                GiveDaredevilStickersDares(man, dareDevilStickers, daredevilsToGive, true);
+                GiveDaredevilStickersDares(man, dareDevilStickers, daredevilsToGive, true, false);
             }
             // calculate the average
             float average = 0f;
@@ -71,20 +72,49 @@ namespace TooManyStickers.Patches
             _GiveNormalRandomStickers.Invoke(man, new object[] { regularStickers, amount, openNow, false });
         }
 
-        static void GiveDaredevilStickersDares(StickerManager man, WeightedSticker[] potentialDaredevils, int amount, bool openNow)
+        static void GiveDaredevilStickersDares(StickerManager man, WeightedSticker[] potentialDaredevils, int amount, bool openNow, bool forceApply)
         {
-            // ugh i hate this
             List<WeightedSelection<Sticker>> potentialStickers = potentialDaredevils.Select(x => (WeightedSelection<Sticker>)new WeightedSticker(x.selection, Mathf.RoundToInt(x.weight * (x.selection.GetMeta().value.CalculateDuplicateOddsMultiplier(man))))).ToList();
-            potentialStickers.RemoveAll(x => !((DaredevilStickerData)x.selection.GetMeta().value).TestIfCanBeGiven(man.activeStickerData)); // remove all we can't give
-            if (potentialStickers.Count == 0)
-            {
-                // TODO: when the gum daredevil sticker is added, just put it here with a weight of int.MaxValue
-            }
             for (int i = 0; i < amount; i++)
             {
+                int stickersAdded = Singleton<StickerManager>.Instance.stickerInventory.Count(x => x.GetMeta().tags.Contains("tms_daredevil")) + Singleton<StickerManager>.Instance.activeStickerData.Count(x => x.GetMeta().tags.Contains("tms_daredevil"));
+                potentialStickers.RemoveAll(x => !((DaredevilStickerData)x.selection.GetMeta().value).TestIfCanBeGiven(man.activeStickerData)); // remove all we can't give
+                if (potentialStickers.Count == 0)
+                {
+                    potentialStickers.Add(new WeightedSelection<Sticker>() { weight = int.MaxValue, selection = TooManyStickersPlugin.stickerEnums["Daredevil_Dud"] });
+                }
                 int chosenIndex = WeightedSticker.RandomIndexList(potentialStickers);
-                potentialStickers[chosenIndex].weight /= 2;
-                man.AddSticker(potentialStickers[chosenIndex].selection, openNow, false, true);
+                // subtract 10 from weight and clamp to 10, but if the current weight is smaller than 10 (only possible if the initial weight was less than 10) then stick with that initial weight
+                potentialStickers[chosenIndex].weight = Mathf.Max(potentialStickers[chosenIndex].weight - 10,Mathf.Min(potentialStickers[chosenIndex].weight, 10));
+                // get all the potential slots this can be put in
+                StickerStateData data = potentialStickers[chosenIndex].selection.GetMeta().value.CreateStateData(0, openNow, false);
+                List<int> potentialSlots = new List<int>();
+                for (int j = 0; j < man.activeStickerData.Length; j++)
+                {
+                    if ((data.GetMeta().value.CouldCoverSticker(man, data, man.activeStickerData[j], 0, j)) && man.activeStickerData[j].GetMeta().value.CanBeCovered(man.activeStickerData[j]))
+                    {
+                        potentialSlots.Add(j);
+                    }
+                }
+                if (potentialSlots.Count == 0)
+                {
+                    man.AddSticker(TooManyStickersPlugin.stickerEnums["Daredevil_Gum"], openNow, false, true);
+                    continue;
+                }
+                if (forceApply && ((DaredevilStickerData)potentialStickers[chosenIndex].selection.GetMeta().value).canBeForceApplied)
+                {
+                    Singleton<CoreGameManager>.Instance.GetHud(0).ShowCollectedSticker(data.GetMeta().value.GetInventorySprite(data));
+                    man.ApplySticker(data, potentialSlots[UnityEngine.Random.Range(0, potentialSlots.Count)]);
+                }
+                else
+                {
+                    if ((potentialSlots.Count - stickersAdded) <= 0)
+                    {
+                        man.AddSticker(TooManyStickersPlugin.stickerEnums["Daredevil_Gum"], openNow, false, true);
+                        continue;
+                    }
+                    man.AddExistingSticker(data, true);
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -40,6 +40,9 @@
 		</Reference>
 		<Reference Include="UnityEngine">
 			<HintPath>..\Dependencies\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AnimationModule">
+		  <HintPath>..\Dependencies\UnityEngine.AnimationModule.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.AudioModule">
 			<HintPath>..\Dependencies\UnityEngine.AudioModule.dll</HintPath>

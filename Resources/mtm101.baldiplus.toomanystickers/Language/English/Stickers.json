@@ -17,5 +17,20 @@
 {"key":"StickerTitle_PointInvisibility","value":"Point Invisibility"},
 {"key":"StickerDescription_PointInvisibility","value":"Every time YTPs are earned, 1 second of invisibility is given for each 15 YTPs."},
 {"key":"StickerTitle_AddVents","value":"Vents"},
-{"key":"StickerDescription_AddVents","value":"Adds 3 vents to the level. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."}
+{"key":"StickerDescription_AddVents","value":"Adds 3 vents to the level. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
+{"key":"Desc_StickerPack_Daredevil","value":"Daredevil Sticker Pack\nContains 2 rarer stickers, with a chance to give dangerous stickers you do not want..."},
+
+
+{"key":"StickerTitle_Daredevil_LessStamina","value":"Stamina Penalty"},
+{"key":"StickerDescription_Daredevil_LessStamina","value":"Reduces Max Stamina by 30%.\nCannot be replaced once applied.\nWill disappear even on glue."},
+{"key":"StickerTitle_Daredevil_Divide","value":"You Thought Points Divider"},
+{"key":"StickerDescription_Daredevil_Divide","value":"Reduces all earned You Thought Points by 30%.\nCannot be replaced once applied.\nWill disappear even on glue."},
+{"key":"StickerTitle_Daredevil_BaldiAngry","value":"Anger Increase"},
+{"key":"StickerDescription_Daredevil_BaldiAngry","value":"Increases Baldi's anger by 25%.\nCannot be replaced once applied.\nWill disappear even on glue."},
+{"key":"StickerTitle_Daredevil_LowVision","value":"The Fog Is Coming"},
+{"key":"StickerDescription_Daredevil_LowVision","value":"Adds a black fog that starts 8 tiles ahead.\nEach sticker brings the fog closer 1.5 tiles.\nCannot be replaced once applied.\nWill disappear even on glue."},
+{"key":"StickerTitle_Daredevil_Gum","value":"Gum"},
+{"key":"StickerDescription_Daredevil_Gum","value":"Slows down the player by 12.5% for every sticker of this type in the inventory.\nApplying does nothing but remove this sticker leaving the sticker applied on intact."},
+{"key":"StickerTitle_Daredevil_Dud","value":"The Dud"},
+{"key":"StickerDescription_Daredevil_Dud","value":"Does nothing.\nCannot be replaced once applied.\nWill disappear even on glue."}
 ]}

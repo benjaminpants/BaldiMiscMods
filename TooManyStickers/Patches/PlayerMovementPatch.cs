@@ -22,6 +22,7 @@ namespace TooManyStickers.Patches
                 pm.plm.Entity.ExternalActivity.moveMods.Add(myMoveMod);
             }
             myMoveMod.movementMultiplier = 1f;
+            myMoveMod.movementMultiplier -= (Singleton<StickerManager>.Instance.TotalInInventory(TooManyStickersPlugin.stickerEnums["Daredevil_Gum"]) * 0.125f);
             if (pm.plm.Entity.Hidden)
             {
                 myMoveMod.movementMultiplier += (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["StealthSpeed"]) * 0.2f);
