@@ -5,15 +5,32 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using UnityEngine;
 
 namespace TooManyStickers.Patches
 {
+
+    [HarmonyPatch(typeof(ItemManager))]
+    [HarmonyPatch("Awake")]
+    class ItemManagerAwakeClass
+    {
+        static void Postfix(ItemManager __instance)
+        {
+            __instance.gameObject.AddComponent<ItemUseTracker>();
+        }
+    }
+
     [HarmonyPatch(typeof(ItemManager))]
     [HarmonyPatch("UseItem")]
     class UseItemPatch
     {
         static ItemObject toPreserve = null;
         static bool handledAlready = false;
+
+        static void OnItemActuallyUsed(ItemManager manager)
+        {
+            PreserveItemPotentially(manager);
+        }
 
         static void PreserveItemPotentially(ItemManager manager)
         {
@@ -22,6 +39,11 @@ namespace TooManyStickers.Patches
                 return;
             }
             if (toPreserve == null) return;
+            // right here is the best way to check if the item changed and assume a usage
+            if (manager.items[manager.selectedItem] != toPreserve)
+            {
+                manager.GetComponent<ItemUseTracker>().itemsUsed++;
+            }
             handledAlready = true;
             // to preserve, or not to preserve, that is the question
             float preserveChance = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["PreserveItem"]) * 0.08f;
@@ -31,7 +53,7 @@ namespace TooManyStickers.Patches
             }
         }
 
-        static MethodInfo _preserve = AccessTools.Method(typeof(UseItemPatch), "PreserveItemPotentially");
+        static MethodInfo _OnItemActuallyUsed = AccessTools.Method(typeof(UseItemPatch), "OnItemActuallyUsed");
 
         [HarmonyPriority(Priority.VeryLow)]
         static void Prefix(ItemManager __instance)
@@ -60,11 +82,19 @@ namespace TooManyStickers.Patches
                 {
                     didPatchOne = true;
                     yield return new CodeInstruction(OpCodes.Ldarg_0); //this
-                    yield return new CodeInstruction(OpCodes.Call, _preserve); //UseItemPatch.PreserveItemPotentially
+                    yield return new CodeInstruction(OpCodes.Call, _OnItemActuallyUsed); //UseItemPatch.OnItemActuallyUsed
                 }
             }
             if (!didPatchOne) throw new Exception("Unable to patch one!");
             yield break;
         }
+    }
+}
+
+namespace TooManyStickers
+{
+    public class ItemUseTracker : MonoBehaviour
+    {
+        public int itemsUsed = 0;
     }
 }

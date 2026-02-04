@@ -36,12 +36,14 @@ namespace TooManyStickers
             "MoreLocks",
             "AddVents",
             "PointInvisibility",
+            "PizzaBonus",
             "Daredevil_LessStamina",
             "Daredevil_Divide",
             "Daredevil_BaldiAngry",
             "Daredevil_LowVision",
             "Daredevil_Gum",
-            "Daredevil_Dud"
+            "Daredevil_Dud",
+            "Daredevil_ItemUseAntiBonus"
         };
 
         public static Dictionary<string, Sticker> stickerEnums = new Dictionary<string, Sticker>();
@@ -73,15 +75,17 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["MoreLocks"], 80),
                 new WeightedSticker(stickerEnums["AddVents"], 80),
                 new WeightedSticker(stickerEnums["PointInvisibility"], 75),
+                new WeightedSticker(stickerEnums["PizzaBonus"], 70),
                 new WeightedSticker(stickerEnums["Daredevil_LessStamina"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_Divide"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_BaldiAngry"], 110),
-                new WeightedSticker(stickerEnums["Daredevil_LowVision"], 90),
-                new WeightedSticker(stickerEnums["Daredevil_Dud"], 2)
+                new WeightedSticker(stickerEnums["Daredevil_LowVision"], 85),
+                new WeightedSticker(stickerEnums["Daredevil_Dud"], 2),
+                new WeightedSticker(stickerEnums["Daredevil_ItemUseAntiBonus"], 90)
             };
             if (sceneObj.GetMeta().tags.Contains("endless"))
             {
-                potentialStickersToAdd.RemoveAll(x => StickerMetaStorage.Instance.Get(x.selection).value.affectsLevelGeneration);
+                potentialStickersToAdd.RemoveAll(x => (StickerMetaStorage.Instance.Get(x.selection).flags.HasFlag(StickerFlags.AffectsLevelGeneration) || StickerMetaStorage.Instance.Get(x.selection).flags.HasFlag(StickerFlags.IsBonus)));
             }
             sceneObj.potentialStickers = sceneObj.potentialStickers.AddRangeToArray(potentialStickersToAdd.ToArray());
             sceneObj.MarkAsNeverUnload();
@@ -89,13 +93,15 @@ namespace TooManyStickers
 
         IEnumerator LoadAssets()
         {
-            yield return 2;
+            yield return 3;
             yield return "Loading sprites...";
             Sprite[] sprites = AssetLoader.TexturesFromMod(this, "*.png", "StickerSprites").ToSprites(1f);
             assetMan.AddRange<Sprite>(sprites, sprites.Select(x => x.texture.name).ToArray());
             assetMan.Add<Sprite>("YTPInvisIcon", AssetLoader.SpriteFromMod(this, Vector2.one / 2f, 1f, "YTPInvisibleIcon.png"));
             assetMan.Add<Sprite>("JohnnyTeleporter", AssetLoader.SpriteFromMod(this, new Vector2(0.4168f, 0.4198f), 28f, "JohnnyTeleporter.png"));
             assetMan.Add<Sprite>("JohnnyTeleporter_Press", AssetLoader.SpriteFromMod(this, new Vector2(0.4168f, 0.4198f), 28f, "JohnnyTeleporter_Press.png"));
+            assetMan.Add<Sprite>("PizzaItem", AssetLoader.SpriteFromMod(this, Vector2.one / 2f, 25f, "PizzaItem.png"));
+            yield return "Loading audio...";
             assetMan.Add<SoundObject>("Jon_Daredevils", ObjectCreators.CreateSoundObject(AssetLoader.AudioClipFromMod(this, "Jon_Daredevils.wav"), "Vfx_Jon_Daredevils", SoundType.Voice, Color.white));
             yield return "Loading localization...";
             AssetLoader.LocalizationFromMod(this);
@@ -103,7 +109,7 @@ namespace TooManyStickers
 
         IEnumerator LoadEnumerator()
         {
-            yield return 6;
+            yield return 7;
             yield return "Loading/fetching assets...";
 
             List<Sprite> allSprites = Resources.FindObjectsOfTypeAll<Sprite>().Where(x => x.GetInstanceID() >= 0).ToList();
@@ -178,6 +184,14 @@ namespace TooManyStickers
                 .SetDuplicateOddsMultiplier(0.85f)
                 .Build();
 
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["PizzaBonus"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_Pizza"))
+                .SetDuplicateOddsMultiplier(0.85f)
+                .SetAsAffectingGenerator()
+                .SetAsBonusSticker()
+                .Build();
+
 
             yield return "Creating daredevil stickers...";
             DaredevilStickerPack = EnumExtensions.ExtendEnum<StickerPackType>("Daredevil");
@@ -216,6 +230,7 @@ namespace TooManyStickers
                 .SetEnum(stickerEnums["Daredevil_Gum"])
                 .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_Gum"))
                 .SetTags("tms_daredevil", "tms_daredevil_allowleave")
+                .SetValueCap(7) // any higher either stops movement completely or results in negative movespeed
                 .SetDuplicateOddsMultiplier(0.9f)
                 .Build();
 
@@ -223,6 +238,13 @@ namespace TooManyStickers
                 .SetEnum(stickerEnums["Daredevil_Dud"])
                 .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_Dud"))
                 .SetTags("tms_daredevil")
+                .Build();
+
+            new StickerBuilder<DaredevilStickerData>(Info)
+                .SetEnum(stickerEnums["Daredevil_ItemUseAntiBonus"])
+                .SetSprite(assetMan.Get<Sprite>("DaredevilSticker_ItemUseAntiBonus"))
+                .SetTags("tms_daredevil")
+                .SetAsBonusSticker()
                 .Build();
 
             yield return "Creating daredevil sticker pack...";
@@ -239,8 +261,26 @@ namespace TooManyStickers
 
             ITM_StickerPack daredevilStickerItem = ((ITM_StickerPack)daredevilPack.item);
             daredevilStickerItem.ReflectionSetVariable("type", DaredevilStickerPack);
-            daredevilStickerItem.ReflectionSetVariable("total", 2);
+            daredevilStickerItem.ReflectionSetVariable("total", 3);
             assetMan.Add<ItemObject>("daredevilPack", daredevilPack);
+
+            yield return "Creating misc...";
+            ItemObject pizzaItem = new ItemBuilder(Info)
+                .SetEnum("PizzaBonus")
+                .SetShopPrice(100)
+                .SetAsInstantUse()
+                .SetSprites(assetMan.Get<Sprite>("PizzaItem"), assetMan.Get<Sprite>("PizzaItem"))
+                .SetItemComponent<PizzaItem>()
+                .Build();
+
+            ((PizzaItem)pizzaItem.item).eatSound = Resources.FindObjectsOfTypeAll<SoundObject>().First(x => x.name == "CartoonEating");
+
+            GameObject pizzaBuilderObject = new GameObject("PizzaBuilder");
+            pizzaBuilderObject.ConvertToPrefab(true);
+            PizzaBuilder builder = pizzaBuilderObject.AddComponent<PizzaBuilder>();
+            builder.pizza = pizzaItem;
+            assetMan.Add("Pizza", pizzaItem);
+            assetMan.Add<StructureBuilder>("PizzaBuilder", builder);
 
             yield return "Modifying metadata...";
             StickerMetaStorage.Instance.Get(Sticker.GlueStick).tags.Add("tms_always_in_stickerpack_sticker");
@@ -264,7 +304,6 @@ namespace TooManyStickers
             stickerPickupClone.name = "StickerPickup_Daredevil";
             stickerPickupClone.item = daredevilPack;
             stickerPickupClone.transform.localPosition = new Vector3(60f, 5f, 47f);
-            //pitstopRoomAsset.roomFunctionContainer.AddFunction(pitstopRoomAsset.roomFunctionContainer.gameObject.AddComponent<CloseWithDaredevilRoomFunction>());
             StoreRoomFunction storeRF = pitstopRoomAsset.roomFunctionContainer.GetComponent<StoreRoomFunction>();
             FieldInfo _stickerPickup = AccessTools.Field(typeof(StoreRoomFunction), "stickerPickup");
             _stickerPickup.SetValue(storeRF, ((Pickup[])_stickerPickup.GetValue(storeRF)).AddToArray(stickerPickupClone));

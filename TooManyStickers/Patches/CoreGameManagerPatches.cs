@@ -15,4 +15,19 @@ namespace TooManyStickers.Patches
             __result *= 1f - Mathf.Min(((float)Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["Daredevil_Divide"]) * 0.30f), 0.98f);
         }
     }
+
+    [HarmonyPatch(typeof(CoreGameManager))]
+    [HarmonyPatch("GetStickerBonuses")]
+    class GetStickerBonusesPatch
+    {
+        static void Postfix(CoreGameManager __instance, ref int __result)
+        {
+            __result -= __instance.GetPlayer(0).itm.GetComponent<ItemUseTracker>().itemsUsed * (100 * Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["Daredevil_ItemUseAntiBonus"]));
+            PizzaCounter counter = __instance.GetPlayer(0).GetComponent<PizzaCounter>();
+            if (counter != null)
+            {
+                __result += counter.pizzas * 100;
+            }
+        }
+    }
 }

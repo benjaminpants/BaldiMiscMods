@@ -18,8 +18,10 @@
 {"key":"StickerDescription_PointInvisibility","value":"Every time YTPs are earned, 1 second of invisibility is given for each 15 YTPs."},
 {"key":"StickerTitle_AddVents","value":"Vents"},
 {"key":"StickerDescription_AddVents","value":"Adds 3 vents to the level. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
-{"key":"Desc_StickerPack_Daredevil","value":"Daredevil Sticker Pack\nContains 2 rarer stickers, with a chance to give dangerous stickers you do not want..."},
+{"key":"StickerTitle_PizzaBonus","value":"Pizza Bonus"},
+{"key":"StickerDescription_PizzaBonus","value":"Adds 10 pizzas to the map. \nEating a pizza takes 6 seconds, refills stamina, and rewards 100 YTPs.\nMust be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
 
+{"key":"Desc_StickerPack_Daredevil","value":"Daredevil Sticker Pack\nContains 3 rarer stickers, with a chance to give dangerous stickers you do not want..."},
 
 {"key":"StickerTitle_Daredevil_LessStamina","value":"Stamina Penalty"},
 {"key":"StickerDescription_Daredevil_LessStamina","value":"Reduces Max Stamina by 30%.\nCannot be replaced once applied.\nWill disappear even on glue."},

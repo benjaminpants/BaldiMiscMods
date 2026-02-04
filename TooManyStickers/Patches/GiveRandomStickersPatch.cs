@@ -42,11 +42,6 @@ namespace TooManyStickers.Patches
                 if (UnityEngine.Random.Range(0f, 1f) >= 0.5f) break;
                 daredevilsToGive++;
             }
-            if (daredevilsToGive > 0)
-            {
-                // give daredevils first
-                GiveDaredevilStickersDares(man, dareDevilStickers, daredevilsToGive, true, false);
-            }
             // calculate the average
             float average = 0f;
             for (int i = 0; i < regularStickers.Length; i++)
@@ -70,6 +65,12 @@ namespace TooManyStickers.Patches
                 }
             }
             _GiveNormalRandomStickers.Invoke(man, new object[] { regularStickers, amount, openNow, false });
+
+            // give daredevils last for suspense
+            if (daredevilsToGive > 0)
+            {
+                GiveDaredevilStickersDares(man, dareDevilStickers, daredevilsToGive, true, false);
+            }
         }
 
         static void GiveDaredevilStickersDares(StickerManager man, WeightedSticker[] potentialDaredevils, int amount, bool openNow, bool forceApply)

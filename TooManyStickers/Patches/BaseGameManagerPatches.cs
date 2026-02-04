@@ -38,6 +38,24 @@ namespace TooManyStickers.Patches
                     }
                 });
             }
+            // add PIZZAA
+            if (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["PizzaBonus"]) > 0)
+            {
+                int pizzaCount = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["PizzaBonus"]);
+                ___levelObject.forcedStructures = ___levelObject.forcedStructures.AddToArray(new StructureWithParameters()
+                {
+                    prefab = TooManyStickersPlugin.Instance.assetMan.Get<StructureBuilder>("PizzaBuilder"),
+                    parameters = new StructureParameters()
+                    {
+                        chance = new float[0],
+                        prefab = new WeightedGameObject[0],
+                        minMax = new IntVector2[]
+                        {
+                            new IntVector2(pizzaCount * 10, pizzaCount * 10),
+                        }
+                    }
+                });
+            }
         }
     }
 

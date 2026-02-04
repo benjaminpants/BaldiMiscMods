@@ -7,11 +7,11 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 
-namespace TooManyStickers
+namespace TooManyStickers.Patches
 {
     [HarmonyPatch(typeof(StoreRoomFunction))]
     [HarmonyPatch("OnPlayerExit")]
-    class CloseWithDaredevilRoomFunction
+    class JohhnyVoicelinePatch
     {
         private static bool ShouldLockdown()
         {
@@ -35,7 +35,7 @@ namespace TooManyStickers
                 player.Teleport(___room.RandomEntitySafeCellNoGarbage().CenterWorldPosition);
                 Singleton<CoreGameManager>.Instance.audMan.PlaySingle(TooManyStickersPlugin.Instance.assetMan.Get<SoundObject>("TeleportSound"));
                 JohnnyTeleportAnimator anim = null;
-                if (!___johnnyBase.gameObject.TryGetComponent<JohnnyTeleportAnimator>(out anim))
+                if (!___johnnyBase.gameObject.TryGetComponent(out anim))
                 {
                     anim = ___johnnyBase.gameObject.AddComponent<JohnnyTeleportAnimator>();
                 }
@@ -46,7 +46,10 @@ namespace TooManyStickers
             return true;
         }
     }
+}
 
+namespace TooManyStickers
+{
     public class JohnnyTeleportAnimator : MonoBehaviour
     {
         Sprite originalSprite;
@@ -162,7 +165,7 @@ namespace TooManyStickers
             Vector3 vector;
             while (time > 0f)
             {
-                vector = Vector3.RotateTowards(player.transform.forward, (base.transform.position - player.transform.position).normalized, Time.deltaTime * 2f * Mathf.PI * speed, 0f);
+                vector = Vector3.RotateTowards(player.transform.forward, (transform.position - player.transform.position).normalized, Time.deltaTime * 2f * Mathf.PI * speed, 0f);
                 player.transform.rotation = Quaternion.LookRotation(vector, Vector3.up);
                 time -= Time.deltaTime;
                 yield return null;
@@ -181,10 +184,12 @@ namespace TooManyStickers
             audMan.PlaySingle(TooManyStickersPlugin.Instance.assetMan.Get<SoundObject>("Jon_Daredevils"));
             Animator anim = (Animator)_animator.GetValue(audMan);
             anim.enabled = false;
+            float timeLeft = 0f;
             for (int i = 0; i < mouthAnim.Length; i++)
             {
                 mouth.sprite = johnnyMouths[mouthAnim[i].Item1];
-                float timeLeft = mouthAnim[i].Item2;
+                // snap to 30fps to emulate scratch (which i used for animation
+                timeLeft = Mathf.Ceil(mouthAnim[i].Item2 * 30) / 30;
                 while (timeLeft > 0f)
                 {
                     timeLeft -= Time.deltaTime;
