@@ -39,7 +39,7 @@ namespace TooManyStickers.Patches
             int daredevilsToGive = 0;
             while (true)
             {
-                if (UnityEngine.Random.Range(0f, 1f) >= 0.5f) break;
+                if (UnityEngine.Random.Range(0f, 1f) >= 0.35f) break;
                 daredevilsToGive++;
             }
             // calculate the average
@@ -76,6 +76,7 @@ namespace TooManyStickers.Patches
         static void GiveDaredevilStickersDares(StickerManager man, WeightedSticker[] potentialDaredevils, int amount, bool openNow, bool forceApply)
         {
             List<WeightedSelection<Sticker>> potentialStickers = potentialDaredevils.Select(x => (WeightedSelection<Sticker>)new WeightedSticker(x.selection, Mathf.RoundToInt(x.weight * (x.selection.GetMeta().value.CalculateDuplicateOddsMultiplier(man))))).ToList();
+            bool anySuccessfullyGiven = false; // if we were able to give ANY regular daredevils, we want this true so we dont give gum stickers, as giving gum stickers and regular stickers just makes it easy to dispose of the gum stickers.
             for (int i = 0; i < amount; i++)
             {
                 int stickersAdded = Singleton<StickerManager>.Instance.stickerInventory.Count(x => x.GetMeta().tags.Contains("tms_daredevil")) + Singleton<StickerManager>.Instance.activeStickerData.Count(x => x.GetMeta().tags.Contains("tms_daredevil"));
@@ -97,7 +98,7 @@ namespace TooManyStickers.Patches
                         potentialSlots.Add(j);
                     }
                 }
-                if (potentialSlots.Count == 0)
+                if ((potentialSlots.Count == 0) && (!anySuccessfullyGiven))
                 {
                     man.AddSticker(TooManyStickersPlugin.stickerEnums["Daredevil_Gum"], openNow, false, true);
                     continue;
@@ -111,9 +112,13 @@ namespace TooManyStickers.Patches
                 {
                     if ((potentialSlots.Count - stickersAdded) <= 0)
                     {
-                        man.AddSticker(TooManyStickersPlugin.stickerEnums["Daredevil_Gum"], openNow, false, true);
+                        if (!anySuccessfullyGiven)
+                        {
+                            man.AddSticker(TooManyStickersPlugin.stickerEnums["Daredevil_Gum"], openNow, false, true);
+                        }
                         continue;
                     }
+                    anySuccessfullyGiven = true;
                     man.AddExistingSticker(data, true);
                 }
             }

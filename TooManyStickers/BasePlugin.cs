@@ -1,25 +1,26 @@
 ﻿using BepInEx;
+using BepInEx.Bootstrap;
+using BepInEx.Logging;
+using HarmonyLib;
+using MTM101BaldAPI;
 using MTM101BaldAPI.AssetTools;
+using MTM101BaldAPI.ObjectCreation;
+using MTM101BaldAPI.Reflection;
 using MTM101BaldAPI.Registers;
 using MTM101BaldAPI.SaveSystem;
-using MTM101BaldAPI;
 using System;
 using System.Collections;
-using UnityEngine;
-using System.Linq;
-using MTM101BaldAPI.ObjectCreation;
-using HarmonyLib;
 using System.Collections.Generic;
-using BepInEx.Logging;
-using MTM101BaldAPI.Reflection;
+using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace TooManyStickers
 {
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "0.0.0.0")]
+    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "1.0.0.0")]
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
         public static TooManyStickersPlugin Instance;
@@ -68,13 +69,13 @@ namespace TooManyStickers
             List<WeightedSticker> potentialStickersToAdd = new List<WeightedSticker>() {
                 new WeightedSticker(stickerEnums["SquishReduce"], 100),
                 new WeightedSticker(stickerEnums["StealthSpeed"], 100),
-                new WeightedSticker(stickerEnums["BoostNext"], 30),
+                new WeightedSticker(stickerEnums["BoostNext"], 20),
                 new WeightedSticker(stickerEnums["PreserveItem"], 60),
                 new WeightedSticker(stickerEnums["MapShrink"], 60),
                 new WeightedSticker(stickerEnums["StickerPackSticker"], 20),
                 new WeightedSticker(stickerEnums["MoreLocks"], 80),
                 new WeightedSticker(stickerEnums["AddVents"], 80),
-                new WeightedSticker(stickerEnums["PointInvisibility"], 75),
+                new WeightedSticker(stickerEnums["PointInvisibility"], 55),
                 new WeightedSticker(stickerEnums["PizzaBonus"], 70),
                 new WeightedSticker(stickerEnums["Daredevil_LessStamina"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_Divide"], 100),
@@ -109,7 +110,7 @@ namespace TooManyStickers
 
         IEnumerator LoadEnumerator()
         {
-            yield return 7;
+            yield return 8;
             yield return "Loading/fetching assets...";
 
             List<Sprite> allSprites = Resources.FindObjectsOfTypeAll<Sprite>().Where(x => x.GetInstanceID() >= 0).ToList();
@@ -307,6 +308,16 @@ namespace TooManyStickers
             StoreRoomFunction storeRF = pitstopRoomAsset.roomFunctionContainer.GetComponent<StoreRoomFunction>();
             FieldInfo _stickerPickup = AccessTools.Field(typeof(StoreRoomFunction), "stickerPickup");
             _stickerPickup.SetValue(storeRF, ((Pickup[])_stickerPickup.GetValue(storeRF)).AddToArray(stickerPickupClone));
+
+            yield return "Finalizing...";
+            if (Chainloader.PluginInfos.ContainsKey("mtm101.rulerp.baldiplus.levelstudioloader"))
+            {
+                EditorAndLoaderSupport.AddLoaderSupport();
+                if (Chainloader.PluginInfos.ContainsKey("mtm101.rulerp.baldiplus.levelstudio"))
+                {
+                    EditorAndLoaderSupport.AddStudioSupport();
+                }
+            }
         }
     }
 }

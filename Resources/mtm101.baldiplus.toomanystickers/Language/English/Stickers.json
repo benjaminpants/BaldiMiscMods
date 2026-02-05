@@ -34,5 +34,7 @@
 {"key":"StickerTitle_Daredevil_Gum","value":"Gum"},
 {"key":"StickerDescription_Daredevil_Gum","value":"Slows down the player by 12.5% for every sticker of this type in the inventory.\nApplying does nothing but remove this sticker leaving the sticker applied on intact."},
 {"key":"StickerTitle_Daredevil_Dud","value":"The Dud"},
-{"key":"StickerDescription_Daredevil_Dud","value":"Does nothing.\nCannot be replaced once applied.\nWill disappear even on glue."}
+{"key":"StickerDescription_Daredevil_Dud","value":"Does nothing.\nCannot be replaced once applied.\nWill disappear even on glue."},
+{"key":"StickerTitle_Daredevil_ItemUseAntiBonus","value":"Item Use Anti-Bonus"},
+{"key":"StickerDescription_Daredevil_ItemUseAntiBonus","value":"Subtracts 100 YTPs per item used.\nCannot be replaced once applied.\nWill disappear even on glue."}
 ]}
