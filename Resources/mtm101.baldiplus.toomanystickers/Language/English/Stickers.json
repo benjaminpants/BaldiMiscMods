@@ -20,6 +20,18 @@
 {"key":"StickerDescription_AddVents","value":"Adds 3 vents to the level. Must be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
 {"key":"StickerTitle_PizzaBonus","value":"Pizza Bonus"},
 {"key":"StickerDescription_PizzaBonus","value":"Adds 10 pizzas to the map. \nEating a pizza takes 6 seconds, refills stamina, and rewards 100 YTPs.\nMust be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
+{"key":"StickerTitle_PraiseTimeSlow","value":"Praise Slowdown"},
+{"key":"StickerDescription_PraiseTimeSlow","value":"Instead of praising, time will slow down for the amount of time Baldi would've praised for.\nEach sticker increases the slowdown.\n(50%,25%,12.5%,6%)"},
+{"key":"StickerTitle_QuarterChance","value":"Bank"},
+{"key":"StickerDescription_QuarterChance","value":"Adds a 10% chance that a used up item will become a Quarter."},
+{"key":"StickerTitle_Favoritism","value":"Favoritism"},
+{"key":"StickerDescription_Favoritism","value":"Each sticker will add 1 extra detention before the detention length increases."},
+{"key":"StickerTitle_ShorterEvents","value":"Shorter Events"},
+{"key":"StickerDescription_ShorterEvents","value":"Each sticker reduces the time of every random event by 10%."},
+{"key":"StickerTitle_IceEyes","value":"Ice Eyes"},
+{"key":"StickerDescription_IceEyes","value":"NPCs that you look at will be slowed down. Each sticker adds 8% to the speed reduction."},
+{"key":"StickerTitle_MoveResist","value":"Tough Feet"},
+{"key":"StickerDescription_MoveResist","value":"The strength of all push forces and speed reductions are reduced by 10%."},
 
 {"key":"Desc_StickerPack_Daredevil","value":"Daredevil Sticker Pack\nContains 3 rarer stickers, with a chance to give dangerous stickers you do not want..."},
 

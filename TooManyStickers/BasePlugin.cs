@@ -38,6 +38,12 @@ namespace TooManyStickers
             "AddVents",
             "PointInvisibility",
             "PizzaBonus",
+            "PraiseTimeSlow",
+            "QuarterChance",
+            "Favoritism",
+            "ShorterEvents",
+            "IceEyes",
+            "MoveResist",
             "Daredevil_LessStamina",
             "Daredevil_Divide",
             "Daredevil_BaldiAngry",
@@ -64,6 +70,22 @@ namespace TooManyStickers
             logger = Logger;
         }
 
+        bool ContainsForcedCharacter(SceneObject scenObj, Character chr)
+        {
+            CustomLevelObject[] objs = scenObj.GetCustomLevelObjects();
+            for (int i = 0; i < objs.Length; i++)
+            {
+                if (objs[i].forcedNpcs.Count(x => x.Character == chr) > 0) return true;
+            }
+            if (scenObj.forcedNpcs.Count(x => x.Character == chr) > 0) return true;
+            foreach (SceneObject scene in scenObj.previousLevels)
+            {
+                // levelobject forced npcs don't carry across floors so a check for that would be redundant
+                if (scenObj.forcedNpcs.Count(x => x.Character == chr) > 0) return true;
+            }
+            return false;
+        }
+
         void GeneratorChanges(string name, int id, SceneObject sceneObj)
         {
             List<WeightedSticker> potentialStickersToAdd = new List<WeightedSticker>() {
@@ -77,6 +99,11 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["AddVents"], 80),
                 new WeightedSticker(stickerEnums["PointInvisibility"], 55),
                 new WeightedSticker(stickerEnums["PizzaBonus"], 70),
+                new WeightedSticker(stickerEnums["PraiseTimeSlow"], 30),
+                new WeightedSticker(stickerEnums["QuarterChance"], 40),
+                new WeightedSticker(stickerEnums["ShorterEvents"], 50),
+                new WeightedSticker(stickerEnums["IceEyes"], 75),
+                new WeightedSticker(stickerEnums["MoveResist"], 90),
                 new WeightedSticker(stickerEnums["Daredevil_LessStamina"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_Divide"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_BaldiAngry"], 110),
@@ -84,6 +111,10 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["Daredevil_Dud"], 2),
                 new WeightedSticker(stickerEnums["Daredevil_ItemUseAntiBonus"], 90)
             };
+            if (ContainsForcedCharacter(sceneObj, Character.Principal))
+            {
+                potentialStickersToAdd.Add(new WeightedSticker(stickerEnums["Favoritism"], 35));
+            }
             if (sceneObj.GetMeta().tags.Contains("endless"))
             {
                 potentialStickersToAdd.RemoveAll(x => (StickerMetaStorage.Instance.Get(x.selection).flags.HasFlag(StickerFlags.AffectsLevelGeneration) || StickerMetaStorage.Instance.Get(x.selection).flags.HasFlag(StickerFlags.IsBonus)));
@@ -193,6 +224,42 @@ namespace TooManyStickers
                 .SetAsBonusSticker()
                 .Build();
 
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["PraiseTimeSlow"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_PraiseTimeSlow"))
+                .SetDuplicateOddsMultiplier(0.9f)
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["QuarterChance"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_QuarterChance"))
+                .SetDuplicateOddsMultiplier(0.9f)
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["Favoritism"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_Favoritism"))
+                .SetDuplicateOddsMultiplier(0.7f)
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["ShorterEvents"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_ShorterEvents"))
+                .SetDuplicateOddsMultiplier(0.8f)
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["IceEyes"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_IceEyes"))
+                .SetDuplicateOddsMultiplier(0.8f)
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["MoveResist"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_MoveResist"))
+                .SetDuplicateOddsMultiplier(0.9f)
+                .Build();
+
 
             yield return "Creating daredevil stickers...";
             DaredevilStickerPack = EnumExtensions.ExtendEnum<StickerPackType>("Daredevil");
@@ -291,6 +358,7 @@ namespace TooManyStickers
             StickerMetaStorage.Instance.Get(Sticker.YtpMulitplier).tags.Add("tms_dareboost");
             StickerMetaStorage.Instance.Get(Sticker.BaldiPraise).tags.Add("tms_dareboost");
             StickerMetaStorage.Instance.Get(Sticker.Elevator).tags.Add("tms_dareboost");
+            StickerMetaStorage.Instance.Get(Sticker.StickerBonus).tags.Add("tms_never_in_stickerpack_sticker");
 
             yield return "Modifying pitstop...";
             RoomAsset pitstopRoomAsset = Resources.FindObjectsOfTypeAll<RoomAsset>().First(x => ((UnityEngine.Object)x).name == "Room_JohnnysStore");

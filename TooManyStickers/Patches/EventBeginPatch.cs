@@ -1,0 +1,19 @@
+﻿using HarmonyLib;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace TooManyStickers.Patches
+{
+    [HarmonyPatch(typeof(RandomEvent))]
+    [HarmonyPatch("Begin")]
+    class EventBeginPatch
+    {
+        static void Prefix(RandomEvent __instance, ref float ___eventTime)
+        {
+            int shorterEvents = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["ShorterEvents"]);
+            if (shorterEvents <= 0) return;
+            ___eventTime -= ___eventTime * (0.1f * shorterEvents);
+        }
+    }
+}

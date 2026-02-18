@@ -24,6 +24,12 @@ namespace TooManyStickers
             LevelLoaderPlugin.Instance.stickerAliases.Add("daredevil_itemuseantibonus", TooManyStickersPlugin.stickerEnums["Daredevil_ItemUseAntiBonus"]);
             LevelLoaderPlugin.Instance.stickerAliases.Add("daredevil_lessstamina", TooManyStickersPlugin.stickerEnums["Daredevil_LessStamina"]);
             LevelLoaderPlugin.Instance.stickerAliases.Add("daredevil_lowvision", TooManyStickersPlugin.stickerEnums["Daredevil_LowVision"]);
+            LevelLoaderPlugin.Instance.stickerAliases.Add("praise_timeslow", TooManyStickersPlugin.stickerEnums["PraiseTimeSlow"]);
+            LevelLoaderPlugin.Instance.stickerAliases.Add("quarter_chance", TooManyStickersPlugin.stickerEnums["QuarterChance"]);
+            LevelLoaderPlugin.Instance.stickerAliases.Add("favoritism", TooManyStickersPlugin.stickerEnums["Favoritism"]);
+            LevelLoaderPlugin.Instance.stickerAliases.Add("shorter_events", TooManyStickersPlugin.stickerEnums["ShorterEvents"]);
+            LevelLoaderPlugin.Instance.stickerAliases.Add("ice_eyes", TooManyStickersPlugin.stickerEnums["IceEyes"]);
+            LevelLoaderPlugin.Instance.stickerAliases.Add("move_resist", TooManyStickersPlugin.stickerEnums["MoveResist"]);
         }
 
         public static void AddStudioSupport()
@@ -34,6 +40,12 @@ namespace TooManyStickers
             AddStickerStudio("sticker_pack_sticker");
             AddStickerStudio("preserve_item");
             AddStickerStudio("point_invis");
+            AddStickerStudio("praise_timeslow");
+            AddStickerStudio("quarter_chance");
+            AddStickerStudio("favoritism");
+            AddStickerStudio("shorter_events");
+            AddStickerStudio("ice_eyes");
+            AddStickerStudio("move_resist");
 
             AddStickerStudio("daredevil_baldiangry");
             AddStickerStudio("daredevil_divide");

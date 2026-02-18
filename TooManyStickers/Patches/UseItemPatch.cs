@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using MTM101BaldAPI.Registers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,16 @@ namespace TooManyStickers.Patches
             if (UnityEngine.Random.Range(0f, 1f) <= preserveChance)
             {
                 manager.SetItem(toPreserve, manager.selectedItem);
+                return; // the item has been preserved, do nothing
+            }
+            if (manager.items[manager.selectedItem].itemType == Items.None)
+            {
+                float quarterChance = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["QuarterChance"]) * 0.1f;
+                if (UnityEngine.Random.Range(0f, 1f) <= quarterChance)
+                {
+                    manager.SetItem(ItemMetaStorage.Instance.FindByEnum(Items.Quarter).value, manager.selectedItem);
+                    return; // the item has been quarterified, do nothing
+                }
             }
         }
 

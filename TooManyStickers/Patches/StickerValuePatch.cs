@@ -7,6 +7,7 @@ namespace TooManyStickers.Patches
 {
     [HarmonyPatch(typeof(StickerManager))]
     [HarmonyPatch("StickerValue")]
+    [HarmonyPriority(Priority.High)]
     class StickerValuePatch
     {
         static void Postfix(StickerManager __instance, Sticker sticker, ref int __result)
