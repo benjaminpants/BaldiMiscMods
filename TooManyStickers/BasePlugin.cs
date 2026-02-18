@@ -20,7 +20,7 @@ namespace TooManyStickers
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "1.0.0.0")]
+    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "2.0.0.0")]
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
         public static TooManyStickersPlugin Instance;
@@ -100,8 +100,8 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["PointInvisibility"], 55),
                 new WeightedSticker(stickerEnums["PizzaBonus"], 70),
                 new WeightedSticker(stickerEnums["PraiseTimeSlow"], 30),
-                new WeightedSticker(stickerEnums["QuarterChance"], 40),
-                new WeightedSticker(stickerEnums["ShorterEvents"], 50),
+                new WeightedSticker(stickerEnums["QuarterChance"], 60),
+                new WeightedSticker(stickerEnums["ShorterEvents"], 80),
                 new WeightedSticker(stickerEnums["IceEyes"], 75),
                 new WeightedSticker(stickerEnums["MoveResist"], 90),
                 new WeightedSticker(stickerEnums["Daredevil_LessStamina"], 100),
@@ -113,7 +113,7 @@ namespace TooManyStickers
             };
             if (ContainsForcedCharacter(sceneObj, Character.Principal))
             {
-                potentialStickersToAdd.Add(new WeightedSticker(stickerEnums["Favoritism"], 35));
+                potentialStickersToAdd.Add(new WeightedSticker(stickerEnums["Favoritism"], 50));
             }
             if (sceneObj.GetMeta().tags.Contains("endless"))
             {
