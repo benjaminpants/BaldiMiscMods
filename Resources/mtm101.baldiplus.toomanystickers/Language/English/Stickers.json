@@ -27,9 +27,9 @@
 {"key":"StickerTitle_Favoritism","value":"Favoritism"},
 {"key":"StickerDescription_Favoritism","value":"Each sticker will add 1 extra detention before the detention length increases."},
 {"key":"StickerTitle_ShorterEvents","value":"Shorter Events"},
-{"key":"StickerDescription_ShorterEvents","value":"Each sticker reduces the time of every random event by 10%."},
+{"key":"StickerDescription_ShorterEvents","value":"Each sticker reduces the time of every random event by 20%."},
 {"key":"StickerTitle_IceEyes","value":"Ice Eyes"},
-{"key":"StickerDescription_IceEyes","value":"NPCs that you look at will be slowed down.\nEach sticker adds 8% to the speed reduction."},
+{"key":"StickerDescription_IceEyes","value":"NPCs that you look at will be slowed down.\nEach sticker adds 10% to the speed reduction."},
 {"key":"StickerTitle_MoveResist","value":"Tough Feet"},
 {"key":"StickerDescription_MoveResist","value":"The strength of all push forces and speed reductions are reduced by 10%."},
 

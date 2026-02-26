@@ -8,13 +8,30 @@ namespace TooManyStickers
 {
     public class BoostNextStickerData : ExtendedStickerData
     {
-        public override bool CanBeCovered(StickerStateData data)
+        /*public override bool CanBeCovered(StickerStateData data)
         {
             if (!base.CanBeCovered(data)) return false;
             int index = Array.FindIndex(Singleton<StickerManager>.Instance.activeStickerData, x => x == data);
             CalculateBoost(index, Singleton<StickerManager>.Instance.activeStickerData, new bool[Singleton<StickerManager>.Instance.activeStickerData.Length], out StickerStateData landedOn, out _);
             if (landedOn == null) return true;
             return StickerMetaStorage.Instance.Get(landedOn.sticker).value.CanBeCovered(landedOn);
+        }*/
+
+        public override BooleanHandshake CanBeCovered(StickerStateData thisSticker, StickerStateData coveringSticker)
+        {
+            int index = Array.FindIndex(Singleton<StickerManager>.Instance.activeStickerData, x => x == thisSticker);
+            CalculateBoost(index, Singleton<StickerManager>.Instance.activeStickerData, new bool[Singleton<StickerManager>.Instance.activeStickerData.Length], out StickerStateData landedOn, out _);
+            if (landedOn == null) return BooleanHandshake.TrueIfAgree;
+            return StickerMetaStorage.Instance.Get(landedOn.sticker).value.CanBeCovered(landedOn, coveringSticker);
+        }
+
+        public override BooleanHandshake CanCoverSticker(StickerStateData thisSticker, StickerStateData otherSticker, int heldStickerSlot, int otherStickerSlot)
+        {
+            if (otherStickerSlot == -1) return BooleanHandshake.TrueIfAgree;
+            CalculateBoost(otherStickerSlot, Singleton<StickerManager>.Instance.activeStickerData, new bool[Singleton<StickerManager>.Instance.activeStickerData.Length], out StickerStateData landedOn, out _);
+            if (landedOn == null) return BooleanHandshake.TrueIfAgree;
+            if (!landedOn.GetMeta().value.CanBeApplied()) return BooleanHandshake.FalseIfAgree;
+            return landedOn.GetMeta().value.CanCoverSticker(landedOn, otherSticker, -1, otherStickerSlot);
         }
 
         public static void CalculateBoost(int i, StickerStateData[] activeStickerData, bool[] alreadyProcessed, out StickerStateData landedOn, out int addition)

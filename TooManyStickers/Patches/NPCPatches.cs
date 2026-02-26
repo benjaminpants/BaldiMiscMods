@@ -76,7 +76,7 @@ namespace TooManyStickers
         {
             // mult the time by two so it takes two seconds for an NPC to fully incubate
             mult = Mathf.Clamp(mult + ((Time.deltaTime * npc.ec.PlayerTimeScale * 0.5f) * (beingObserved ? 1f : -1f)), 0f, 1f);
-            float maxMult = (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["IceEyes"]) * 0.08f);
+            float maxMult = (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["IceEyes"]) * 0.1f);
             moveMod.movementMultiplier = Mathf.Max(1f - (maxMult * mult),0.1f);
         }
 

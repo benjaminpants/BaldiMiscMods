@@ -93,7 +93,8 @@ namespace TooManyStickers.Patches
                 List<int> potentialSlots = new List<int>();
                 for (int j = 0; j < man.activeStickerData.Length; j++)
                 {
-                    if ((data.GetMeta().value.CouldCoverSticker(man, data, man.activeStickerData[j], 0, j)) && man.activeStickerData[j].GetMeta().value.CanBeCovered(man.activeStickerData[j]))
+                    //if ((data.GetMeta().value.CouldCoverSticker(man, data, man.activeStickerData[j], 0, j)) && man.activeStickerData[j].GetMeta().value.CanBeCovered(man.activeStickerData[j]))
+                    if (data.CanCover(man.activeStickerData[j], 0, j))
                     {
                         potentialSlots.Add(j);
                     }

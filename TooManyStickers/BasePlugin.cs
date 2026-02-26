@@ -189,7 +189,7 @@ namespace TooManyStickers
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["PreserveItem"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_PreserveItem"))
-                .SetDuplicateOddsMultiplier(0.75f)
+                .SetDuplicateOddsMultiplier(0.9f)
                 .Build();
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["MapShrink"])
