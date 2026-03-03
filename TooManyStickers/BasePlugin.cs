@@ -20,7 +20,7 @@ namespace TooManyStickers
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "2.0.0.0")]
+    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "2.1.0.0")]
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
         public static TooManyStickersPlugin Instance;
@@ -246,12 +246,14 @@ namespace TooManyStickers
                 .SetEnum(stickerEnums["ShorterEvents"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_ShorterEvents"))
                 .SetDuplicateOddsMultiplier(0.8f)
+                .SetValueCap(4)
                 .Build();
 
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["IceEyes"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_IceEyes"))
                 .SetDuplicateOddsMultiplier(0.8f)
+                .SetValueCap(10)
                 .Build();
 
             new StickerBuilder<ExtendedStickerData>(Info)

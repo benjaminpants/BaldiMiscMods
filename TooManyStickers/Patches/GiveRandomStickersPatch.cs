@@ -61,7 +61,11 @@ namespace TooManyStickers.Patches
                 }
                 if (regularStickers[i].selection.GetMeta().tags.Contains("tms_dareboost"))
                 {
-                    regularStickers[i].weight += 30;
+                    regularStickers[i].weight += 40;
+                }
+                else if (regularStickers[i].selection.GetMeta().tags.Contains("tms_darepenalty") || regularStickers[i].selection.GetMeta().flags.HasFlag(StickerFlags.IsBonus))
+                {
+                    regularStickers[i].weight /= 2;
                 }
             }
             _GiveNormalRandomStickers.Invoke(man, new object[] { regularStickers, amount, openNow, false });
