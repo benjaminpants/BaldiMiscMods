@@ -1,0 +1,11 @@
+{"items":[
+
+{"key":"Itm_PlusPresent","value":"Present"},
+{"key":"Desc_PlusPresent","value":"Present\nWho knows whats inside?!"},
+
+{"key":"StickerTitle_BetterPresents","value":"Better Presents"},
+{"key":"StickerDescription_BetterPresents","value":"Increases the chances of presents giving valuable items."},
+
+{"key":"Ed_Tool_item_pluspresent_Desc","value":"Gives the player a random shop item upon collection."}
+
+]}

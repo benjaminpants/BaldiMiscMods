@@ -8,7 +8,7 @@ namespace TooManyStickers.Patches
 {
     [HarmonyPatch(typeof(EnvironmentController))]
     [HarmonyPatch("Update")]
-    class EnvironmentControllerPatches
+    class EnvironmentControllerUpdatePatch
     {
         static Fog fog = new Fog()
         {
@@ -37,5 +37,30 @@ namespace TooManyStickers.Patches
                 __instance.RemoveFog(fog);
             }
         }
+    }
+
+    [HarmonyPatch(typeof(EnvironmentController))]
+    [HarmonyPatch("Start")]
+    class EControllerStartPatch
+    {
+        static void Prefix(EnvironmentController __instance)
+        {
+            __instance.gameObject.AddComponent<TMSEcTracker>();
+        }
+    }
+}
+
+namespace TooManyStickers
+{
+    public class TMSEcTracker : MonoBehaviour
+    {
+        public static TMSEcTracker Instance;
+
+        void Awake()
+        {
+            Instance = this;
+        }
+
+        public float secondsSeenByBaldi = 0f;
     }
 }

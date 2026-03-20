@@ -28,6 +28,13 @@ namespace TooManyStickers.Patches
             {
                 __result += counter.pizzas * 100;
             }
+
+            TMSEcTracker tracker = Singleton<BaseGameManager>.Instance.Ec.GetComponent<TMSEcTracker>();
+            int sightlessBonusMult = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["SightlessBonus"]);
+            if (sightlessBonusMult != 0)
+            {
+                __result += Mathf.Max(1000 - Mathf.FloorToInt((tracker.secondsSeenByBaldi * 15)), 0) * sightlessBonusMult;
+            }
         }
     }
 }

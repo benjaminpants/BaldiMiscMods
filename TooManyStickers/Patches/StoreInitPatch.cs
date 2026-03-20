@@ -26,6 +26,7 @@ namespace TooManyStickers.Patches
             {
                 storeData = Singleton<CoreGameManager>.Instance.nextLevel;
             }
+            if (storeData == null) return;
             // if there are daredevil stickers, this patch should do nothing
             if (storeData.potentialStickers.Count(x => x.selection.GetMeta().tags.Contains("tms_daredevil")) > 0) return;
             Pickup[] toRemove = ___stickerPickup.Where(x => ((StickerPackType)_type.GetValue(x.item.item)) == TooManyStickersPlugin.DaredevilStickerPack).ToArray();

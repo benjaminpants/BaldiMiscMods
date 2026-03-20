@@ -16,7 +16,7 @@ using BepInEx.Configuration;
 namespace LevelTyped
 {
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
-    [BepInPlugin("mtm101.rulerp.baldiplus.leveltyped", "Level Typed", "1.2.0.3")]
+    [BepInPlugin("mtm101.rulerp.baldiplus.leveltyped", "Level Typed", "1.2.0.4")]
     public class LevelTypedPlugin : BaseUnityPlugin
     {
         public AssetManager assetMan = new AssetManager();
@@ -830,6 +830,7 @@ It is recommended to leave this to true, as turning it off will likely cause cra
                                 new IntVector2(1,Mathf.Clamp(levelId,1,2)),
                                 new IntVector2((levelName == "F1") ? 2 : 3,(levelName == "F1") ? 2 : 3),
                                 new IntVector2(0,30 + (levelId * 10)),
+                                new IntVector2(1,1)
                             },
                             chance=new float[] { (levelName == "F1") ? 0f : 0.12f }
                         }

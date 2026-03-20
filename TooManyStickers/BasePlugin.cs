@@ -20,7 +20,7 @@ namespace TooManyStickers
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "2.1.0.0")]
+    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "2.1.1.0")]
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
         public static TooManyStickersPlugin Instance;
@@ -44,6 +44,7 @@ namespace TooManyStickers
             "ShorterEvents",
             "IceEyes",
             "MoveResist",
+            "SightlessBonus",
             "Daredevil_LessStamina",
             "Daredevil_Divide",
             "Daredevil_BaldiAngry",
@@ -104,6 +105,7 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["ShorterEvents"], 80),
                 new WeightedSticker(stickerEnums["IceEyes"], 75),
                 new WeightedSticker(stickerEnums["MoveResist"], 90),
+                new WeightedSticker(stickerEnums["SightlessBonus"], 85),
                 new WeightedSticker(stickerEnums["Daredevil_LessStamina"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_Divide"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_BaldiAngry"], 110),
@@ -194,7 +196,7 @@ namespace TooManyStickers
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["MapShrink"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_MapShrink"))
-                .SetDuplicateOddsMultiplier(0.7f)
+                .SetDuplicateOddsMultiplier(0.75f)
                 .SetValueCap(10)
                 .SetAsAffectingGenerator()
                 .Build();
@@ -221,6 +223,13 @@ namespace TooManyStickers
                 .SetSprite(assetMan.Get<Sprite>("Sticker_Pizza"))
                 .SetDuplicateOddsMultiplier(0.85f)
                 .SetAsAffectingGenerator()
+                .SetAsBonusSticker()
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["SightlessBonus"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_SightlessBonus"))
+                .SetDuplicateOddsMultiplier(0.8f)
                 .SetAsBonusSticker()
                 .Build();
 

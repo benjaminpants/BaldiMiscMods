@@ -31,6 +31,18 @@ namespace TooManyStickers.Patches
         }
     }
 
+    [HarmonyPatch(typeof(Baldi))]
+    [HarmonyPatch("Hear")]
+    class BaldiHearPatch
+    {
+        static void Prefix(Baldi __instance, int value, bool indicator)
+        {
+            if (value != 127) return;
+            if (indicator) return;
+            TMSEcTracker.Instance.secondsSeenByBaldi += Time.deltaTime;
+        }
+    }
+
     public class BaldiPraiseTimeTracker : MonoBehaviour
     {
         public EnvironmentController env;
@@ -41,11 +53,17 @@ namespace TooManyStickers.Patches
         {
             env = ec;
             timeRemaining = time;
-            timeMod = new TimeScaleModifier();
+            if (timeMod == null)
+            {
+                timeMod = new TimeScaleModifier();
+            }
             timeMod.npcTimeScale = timeScale;
             timeMod.playerTimeScale = 1f;
             timeMod.environmentTimeScale = timeScale;
-            env.AddTimeScale(timeMod);
+            if (timeMod == null)
+            {
+                env.AddTimeScale(timeMod);
+            }
         }
 
         void Update()
