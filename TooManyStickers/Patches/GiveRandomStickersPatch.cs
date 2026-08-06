@@ -53,19 +53,26 @@ namespace TooManyStickers.Patches
             {
                 if (regularStickers[i].weight > average)
                 {
-                    regularStickers[i].weight /= 2;
+                    regularStickers[i].weight /= 3;
                 }
                 else
                 {
                     regularStickers[i].weight *= 3;
                 }
+
+                StickerMetaData meta = regularStickers[i].selection.GetMeta();
+
+
+                // duplicate chance bonus
+                regularStickers[i].weight += Mathf.RoundToInt(25f / Mathf.Max(meta.value.duplicateOddsMultiplier,0.25f));
+
                 if (regularStickers[i].selection.GetMeta().tags.Contains("tms_dareboost"))
                 {
-                    regularStickers[i].weight += 40;
+                    regularStickers[i].weight += 100;
                 }
                 else if (regularStickers[i].selection.GetMeta().tags.Contains("tms_darepenalty") || regularStickers[i].selection.GetMeta().flags.HasFlag(StickerFlags.IsBonus))
                 {
-                    regularStickers[i].weight /= 2;
+                    regularStickers[i].weight /= 3;
                 }
             }
             _GiveNormalRandomStickers.Invoke(man, new object[] { regularStickers, amount, openNow, false });
@@ -80,6 +87,13 @@ namespace TooManyStickers.Patches
         static void GiveDaredevilStickersDares(StickerManager man, WeightedSticker[] potentialDaredevils, int amount, bool openNow, bool forceApply)
         {
             List<WeightedSelection<Sticker>> potentialStickers = potentialDaredevils.Select(x => (WeightedSelection<Sticker>)new WeightedSticker(x.selection, Mathf.RoundToInt(x.weight * (x.selection.GetMeta().value.CalculateDuplicateOddsMultiplier(man))))).ToList();
+            WeightedSelection<Sticker> invalidSticker = potentialStickers.Find(x => !(x.selection.GetMeta().value is DaredevilStickerData));
+            if (invalidSticker != null)
+            {
+                InvalidCastException exception = new InvalidCastException(invalidSticker.selection.ToStringExtended() + " is not a DaredevilStickerData!");
+                MTM101BaldiDevAPI.CauseCrash(TooManyStickersPlugin.Instance.Info, exception);
+                throw exception;
+            }
             bool anySuccessfullyGiven = false; // if we were able to give ANY regular daredevils, we want this true so we dont give gum stickers, as giving gum stickers and regular stickers just makes it easy to dispose of the gum stickers.
             for (int i = 0; i < amount; i++)
             {

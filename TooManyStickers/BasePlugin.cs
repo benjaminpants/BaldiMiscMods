@@ -20,7 +20,7 @@ namespace TooManyStickers
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "2.1.1.0")]
+    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "2.1.2.0")]
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
         public static TooManyStickersPlugin Instance;
@@ -369,6 +369,7 @@ namespace TooManyStickers
             StickerMetaStorage.Instance.Get(Sticker.YtpMulitplier).tags.Add("tms_dareboost");
             StickerMetaStorage.Instance.Get(Sticker.BaldiPraise).tags.Add("tms_dareboost");
             StickerMetaStorage.Instance.Get(Sticker.Elevator).tags.Add("tms_dareboost");
+            StickerMetaStorage.Instance.Get(Sticker.Reach).tags.Add("tms_dareboost");
             StickerMetaStorage.Instance.Get(Sticker.StickerBonus).tags.Add("tms_never_in_stickerpack_sticker");
 
             yield return "Modifying pitstop...";
