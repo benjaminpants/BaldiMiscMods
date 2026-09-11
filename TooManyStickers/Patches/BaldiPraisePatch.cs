@@ -60,7 +60,7 @@ namespace TooManyStickers.Patches
             timeMod.npcTimeScale = timeScale;
             timeMod.playerTimeScale = 1f;
             timeMod.environmentTimeScale = timeScale;
-            if (timeMod == null)
+            if (timeMod != null)
             {
                 env.AddTimeScale(timeMod);
             }
