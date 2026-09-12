@@ -12,6 +12,14 @@ namespace TooManyStickers.Patches
     {
         static void Prefix(LevelGenerationParameters ___levelObject)
         {
+            if (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["DimmerLights"]) > 0)
+            {
+                if (___levelObject.standardLightStrength > 1)
+                {
+                    ___levelObject.standardLightStrength = Mathf.Max(___levelObject.standardLightStrength - ((Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["DimmerLights"])) + 3), 2);
+                }
+            }
+
             if (Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["MapShrink"]) > 0)
             {
                 float percentage = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["MapShrink"]) * 0.09f;
@@ -103,6 +111,37 @@ namespace TooManyStickers.Patches
         static void Prefix(ref float val)
         {
             val += val * Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["Daredevil_BaldiAngry"]) * 0.25f;
+        }
+    }
+
+    [HarmonyPatch(typeof(BaseGameManager))]
+    [HarmonyPatch("CollectNotebooks")]
+    class CollectNotebooksPatch
+    {
+        static void Prefix(int count)
+        {
+            bool changedStickers = false;
+            for (int j = 0; j < count; j++)
+            {
+                for (int i = 0; i < StickerManager.Instance.stickerInventory.Count; i++)
+                {
+                    if (StickerManager.Instance.stickerInventory[i] is GlitchStickerStateData glitchInvState)
+                    {
+                        changedStickers |= glitchInvState.RollMimicStickerChance();
+                    }
+                }
+                for (int i = 0; i < StickerManager.Instance.activeStickerData.Length; i++)
+                {
+                    if (StickerManager.Instance.activeStickerData[i] is GlitchStickerStateData glitchState)
+                    {
+                        changedStickers |= glitchState.RollMimicStickerChance();
+                    }
+                }
+            }
+            if (changedStickers)
+            {
+                StickerManager.Instance.applyStickers = true;
+            }
         }
     }
 }

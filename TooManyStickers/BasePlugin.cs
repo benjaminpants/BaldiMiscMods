@@ -45,13 +45,16 @@ namespace TooManyStickers
             "IceEyes",
             "MoveResist",
             "SightlessBonus",
+            "Glitch",
+            "DimmerLights",
+            "ItemSpeed",
             "Daredevil_LessStamina",
             "Daredevil_Divide",
             "Daredevil_BaldiAngry",
             "Daredevil_LowVision",
             "Daredevil_Gum",
             "Daredevil_Dud",
-            "Daredevil_ItemUseAntiBonus"
+            "Daredevil_ItemUseAntiBonus",
         };
 
         public static Dictionary<string, Sticker> stickerEnums = new Dictionary<string, Sticker>();
@@ -96,6 +99,8 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["PreserveItem"], 60),
                 new WeightedSticker(stickerEnums["MapShrink"], 60),
                 new WeightedSticker(stickerEnums["StickerPackSticker"], 20),
+                new WeightedSticker(stickerEnums["ItemSpeed"], 65),
+                new WeightedSticker(stickerEnums["DimmerLights"], 50),
                 new WeightedSticker(stickerEnums["MoreLocks"], 80),
                 new WeightedSticker(stickerEnums["AddVents"], 80),
                 new WeightedSticker(stickerEnums["PointInvisibility"], 55),
@@ -106,6 +111,7 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["IceEyes"], 75),
                 new WeightedSticker(stickerEnums["MoveResist"], 90),
                 new WeightedSticker(stickerEnums["SightlessBonus"], 85),
+                new WeightedSticker(stickerEnums["Glitch"], 10),
                 new WeightedSticker(stickerEnums["Daredevil_LessStamina"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_Divide"], 100),
                 new WeightedSticker(stickerEnums["Daredevil_BaldiAngry"], 110),
@@ -269,6 +275,25 @@ namespace TooManyStickers
                 .SetEnum(stickerEnums["MoveResist"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_MoveResist"))
                 .SetDuplicateOddsMultiplier(0.9f)
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["DimmerLights"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_DimmerLights"))
+                .SetAsAffectingGenerator()
+                .SetDuplicateOddsMultiplier(1f)
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["ItemSpeed"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_ItemSpeed"))
+                .SetDuplicateOddsMultiplier(1f)
+                .Build();
+
+            new StickerBuilder<GlitchStickerData>(Info)
+                .SetEnum(stickerEnums["Glitch"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_Glitch"))
+                .SetDuplicateOddsMultiplier(1.1f) //low chance already, but once you have one the floodgates will begin...
                 .Build();
 
 

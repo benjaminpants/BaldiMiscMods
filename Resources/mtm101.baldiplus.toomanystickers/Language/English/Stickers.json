@@ -34,6 +34,13 @@
 {"key":"StickerDescription_MoveResist","value":"The strength of all push forces and speed reductions are reduced by 10%."},
 {"key":"StickerTitle_SightlessBonus","value":"Stealth Bonus"},
 {"key":"StickerDescription_SightlessBonus","value":"Bonus starts at 1000 YTPs, for every second Baldi can see you,\nthe reward is reduced by 15 YTPs.\nEach sticker increases the initial bonus and bonus reduction."},
+{"key":"StickerTitle_Glitch","value":"Glitch"},
+{"key":"StickerDescription_Glitch","value":"Changes at random. If you see this something is wrong."},
+{"key":"StickerTitle_DimmerLights","value":"Dimmer Lights"},
+{"key":"StickerDescription_DimmerLights","value":"The strength of all lights is reduced by 4, with an additional 1 per sticker.\nMust be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
+{"key":"StickerTitle_ItemSpeed","value":"Item Accelerator"},
+{"key":"StickerDescription_ItemSpeed","value":"Increases the movement speed of all items by 25%."},
+
 
 {"key":"Desc_StickerPack_Daredevil","value":"Daredevil Sticker Pack\nContains 3 rarer stickers, with a chance to give dangerous stickers you do not want..."},
 

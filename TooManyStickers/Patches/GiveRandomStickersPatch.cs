@@ -16,7 +16,7 @@ namespace TooManyStickers.Patches
     [HarmonyPriority(Priority.High)]
     class GiveRandomStickersPatch
     {
-        static bool Prefix(StickerManager __instance, ref WeightedSticker[] potentialStickers, StickerPackType packType, int amount, bool openNow)
+        static bool Prefix(StickerManager __instance, ref WeightedSticker[] potentialStickers, StickerPackType packType, ref int amount, bool openNow)
         {
             // if we are handling the daredevil sticker pack, pass in potentialStickers as normal into GiveDaredevilStickers
             if (packType == TooManyStickersPlugin.DaredevilStickerPack)
