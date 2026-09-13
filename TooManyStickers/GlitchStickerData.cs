@@ -203,7 +203,19 @@ namespace TooManyStickers
             return false;
         }
 
-        public static bool StickerIsValidTarget(Sticker sticker)
+
+
+        public virtual bool StickerIsValidTarget(Sticker sticker)
+        {
+            StickerMetaData data = sticker.GetMeta();
+            if (data.tags.Contains("tms_glitch_forceallowmimic")) return true;
+            if (data.flags.HasFlag(StickerFlags.AffectsLevelGeneration) || data.flags.HasFlag(StickerFlags.IsBonus)) return false;
+            if ((data.value.GetType() != typeof(ExtendedStickerData)) && (data.value.GetType() != typeof(VanillaCompatibleExtendedStickerData))) return false; // no attempting to emulate stickers with abnormal behavior WE WILL FAIL!
+            if (data.tags.Contains("tms_glitch_nomimic")) return false;
+            return true;
+        }
+
+        public static bool StickerIsValidTargetForPregeneration(Sticker sticker)
         {
             StickerMetaData data = sticker.GetMeta();
             if (data.tags.Contains("tms_glitch_forceallowmimic")) return true;

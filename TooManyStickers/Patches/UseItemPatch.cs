@@ -60,26 +60,29 @@ namespace TooManyStickers.Patches
                 return;
             }
             // only do anything if this Item uses an entity, as otherwise "speed" could mean many things
-            if (item.TryGetComponent<Entity>(out Entity ent) && !itemMeta.tags.Contains("tms_itemspeed_novarmanip"))
+            if (item.TryGetComponent<Entity>(out Entity ent))
             {
-                FieldInfo fInfo = AccessTools.FindIncludingBaseTypes(item.GetType(), (Type t) => t.GetField("speed", AccessTools.all)); // using this instead of AccessTools.Field because that prints an unnecessary warning into the console.
-                //AccessTools.Field(__instance.GetType(), "speed");
-                if (fInfo != null)
+                if (!itemMeta.tags.Contains("tms_itemspeed_novarmanip"))
                 {
-                    if (fInfo.FieldType == typeof(int))
+                    FieldInfo fInfo = AccessTools.FindIncludingBaseTypes(item.GetType(), (Type t) => t.GetField("speed", AccessTools.all)); // using this instead of AccessTools.Field because that prints an unnecessary warning into the console.
+                    //AccessTools.Field(__instance.GetType(), "speed");
+                    if (fInfo != null)
                     {
-                        fInfo.SetValue(item, Mathf.CeilToInt(((int)fInfo.GetValue(item)) * itemSpeedStickerVal));
-                        return;
-                    }
-                    else if (fInfo.FieldType == typeof(float))
-                    {
-                        fInfo.SetValue(item, (float)fInfo.GetValue(item) * itemSpeedStickerVal);
-                        return;
-                    }
-                    else if (fInfo.FieldType == typeof(double))
-                    {
-                        fInfo.SetValue(item, (double)fInfo.GetValue(item) * itemSpeedStickerVal);
-                        return;
+                        if (fInfo.FieldType == typeof(int))
+                        {
+                            fInfo.SetValue(item, Mathf.CeilToInt(((int)fInfo.GetValue(item)) * itemSpeedStickerVal));
+                            return;
+                        }
+                        else if (fInfo.FieldType == typeof(float))
+                        {
+                            fInfo.SetValue(item, (float)fInfo.GetValue(item) * itemSpeedStickerVal);
+                            return;
+                        }
+                        else if (fInfo.FieldType == typeof(double))
+                        {
+                            fInfo.SetValue(item, (double)fInfo.GetValue(item) * itemSpeedStickerVal);
+                            return;
+                        }
                     }
                 }
                 ent.ExternalActivity.moveMods.Add(new MovementModifier(Vector3.zero, itemSpeedStickerVal));

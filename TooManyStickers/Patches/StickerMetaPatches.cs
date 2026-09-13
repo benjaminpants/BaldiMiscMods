@@ -13,7 +13,7 @@ namespace TooManyStickers.Patches
     {
         static void Postfix(ExtendedStickerData sticker)
         {
-            if (GlitchStickerStateData.StickerIsValidTarget(sticker.sticker))
+            if (GlitchStickerStateData.StickerIsValidTargetForPregeneration(sticker.sticker))
             {
                 GlitchStickerData.GetOrGenerateGlitchSprite(sticker.sticker.ToStringExtended(), sticker.sprite);
             }

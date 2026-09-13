@@ -38,6 +38,8 @@
 {"key":"StickerDescription_Glitch","value":"Changes at random. If you see this something is wrong."},
 {"key":"StickerTitle_DimmerLights","value":"Dimmer Lights"},
 {"key":"StickerDescription_DimmerLights","value":"The strength of all lights is reduced by 4, with an additional 1 per sticker.\nMust be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
+{"key":"StickerTitle_ClearVision","value":"Goggles"},
+{"key":"StickerDescription_ClearVision","value":"Allows seeing hidden npcs.\nIncreases the visual brightness by 8% per sticker.\nPushes fog back 2 tiles per sticker."},
 {"key":"StickerTitle_ItemSpeed","value":"Item Accelerator"},
 {"key":"StickerDescription_ItemSpeed","value":"Increases the movement speed of all items by 25%."},
 

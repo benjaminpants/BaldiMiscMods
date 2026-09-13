@@ -33,6 +33,7 @@ namespace TooManyStickers
             LevelLoaderPlugin.Instance.stickerAliases.Add("sightless_bonus", TooManyStickersPlugin.stickerEnums["SightlessBonus"]);
             LevelLoaderPlugin.Instance.stickerAliases.Add("glitch", TooManyStickersPlugin.stickerEnums["Glitch"]);
             LevelLoaderPlugin.Instance.stickerAliases.Add("itemspeed", TooManyStickersPlugin.stickerEnums["ItemSpeed"]);
+            LevelLoaderPlugin.Instance.stickerAliases.Add("clearvision", TooManyStickersPlugin.stickerEnums["ClearVision"]);
         }
 
         public static void AddStudioSupport()
@@ -52,6 +53,7 @@ namespace TooManyStickers
             AddStickerStudio("sightless_bonus");
             AddStickerStudio("glitch");
             AddStickerStudio("itemspeed");
+            AddStickerStudio("clearvision");
 
             AddStickerStudio("daredevil_baldiangry");
             AddStickerStudio("daredevil_divide");

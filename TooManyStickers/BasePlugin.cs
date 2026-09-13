@@ -47,6 +47,7 @@ namespace TooManyStickers
             "SightlessBonus",
             "Glitch",
             "DimmerLights",
+            "ClearVision",
             "ItemSpeed",
             "Daredevil_LessStamina",
             "Daredevil_Divide",
@@ -99,8 +100,9 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["PreserveItem"], 60),
                 new WeightedSticker(stickerEnums["MapShrink"], 60),
                 new WeightedSticker(stickerEnums["StickerPackSticker"], 20),
-                new WeightedSticker(stickerEnums["ItemSpeed"], 65),
-                new WeightedSticker(stickerEnums["DimmerLights"], 50),
+                new WeightedSticker(stickerEnums["ItemSpeed"], 80),
+                new WeightedSticker(stickerEnums["ClearVision"], 75),
+                new WeightedSticker(stickerEnums["DimmerLights"], 70),
                 new WeightedSticker(stickerEnums["MoreLocks"], 80),
                 new WeightedSticker(stickerEnums["AddVents"], 80),
                 new WeightedSticker(stickerEnums["PointInvisibility"], 55),
@@ -287,7 +289,13 @@ namespace TooManyStickers
             new StickerBuilder<ExtendedStickerData>(Info)
                 .SetEnum(stickerEnums["ItemSpeed"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_ItemSpeed"))
-                .SetDuplicateOddsMultiplier(1f)
+                .SetDuplicateOddsMultiplier(0.9f)
+                .Build();
+
+            new StickerBuilder<ExtendedStickerData>(Info)
+                .SetEnum(stickerEnums["ClearVision"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_ClearVision"))
+                .SetDuplicateOddsMultiplier(0.8f)
                 .Build();
 
             new StickerBuilder<GlitchStickerData>(Info)

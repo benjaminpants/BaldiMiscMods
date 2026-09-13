@@ -37,4 +37,20 @@ namespace TooManyStickers.Patches
             }
         }
     }
+
+    [HarmonyPatch(typeof(CoreGameManager))]
+    [HarmonyPatch("UpdateLighting")]
+    class UpdateLightingPatch
+    {
+        static void Prefix(CoreGameManager __instance, ref Color color)
+        {
+            float clearVisionVal = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["ClearVision"]) * 0.08f;
+            if (clearVisionVal > 0)
+            {
+                Color toAdd = Color.Lerp(Mathf.Max(color.r, color.g, color.b) <= __instance.GetPlayer(0).MaxHideableLightLevel ? Color.yellow : Color.green, Color.white, 0.15f);
+                toAdd *= clearVisionVal;
+                color += toAdd;
+            }
+        }
+    }
 }
