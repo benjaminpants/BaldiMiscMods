@@ -20,7 +20,7 @@ namespace TooManyStickers
     [BepInDependency("mtm101.rulerp.bbplus.baldidevapi")]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudio", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("mtm101.rulerp.baldiplus.levelstudioloader", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "2.1.2.0")]
+    [BepInPlugin("mtm101.baldiplus.toomanystickers", "Too Many Stickers", "3.0.0.0")]
     public class TooManyStickersPlugin : BaseUnityPlugin
     {
         public static TooManyStickersPlugin Instance;
@@ -49,6 +49,7 @@ namespace TooManyStickers
             "DimmerLights",
             "ClearVision",
             "ItemSpeed",
+            "Chest",
             "Daredevil_LessStamina",
             "Daredevil_Divide",
             "Daredevil_BaldiAngry",
@@ -106,11 +107,12 @@ namespace TooManyStickers
                 new WeightedSticker(stickerEnums["MoreLocks"], 80),
                 new WeightedSticker(stickerEnums["AddVents"], 80),
                 new WeightedSticker(stickerEnums["PointInvisibility"], 55),
-                new WeightedSticker(stickerEnums["PizzaBonus"], 70),
+                new WeightedSticker(stickerEnums["Chest"], 30),
+                new WeightedSticker(stickerEnums["PizzaBonus"], 75),
                 new WeightedSticker(stickerEnums["PraiseTimeSlow"], 30),
                 new WeightedSticker(stickerEnums["QuarterChance"], 60),
                 new WeightedSticker(stickerEnums["ShorterEvents"], 80),
-                new WeightedSticker(stickerEnums["IceEyes"], 75),
+                new WeightedSticker(stickerEnums["IceEyes"], 70),
                 new WeightedSticker(stickerEnums["MoveResist"], 90),
                 new WeightedSticker(stickerEnums["SightlessBonus"], 85),
                 new WeightedSticker(stickerEnums["Glitch"], 10),
@@ -189,7 +191,7 @@ namespace TooManyStickers
                 .SetEnum(stickerEnums["BoostNext"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_BoostNext"))
                 .SetDuplicateOddsMultiplier(0.55f)
-                .SetTags("tms_dareboost")
+                .SetTags("tms_dareboost", "tms_nocheststicker")
                 .Build();
             new StickerBuilder<StickerPackStickerData>(Info)
                 .SetEnum(stickerEnums["StickerPackSticker"])
@@ -301,8 +303,16 @@ namespace TooManyStickers
             new StickerBuilder<GlitchStickerData>(Info)
                 .SetEnum(stickerEnums["Glitch"])
                 .SetSprite(assetMan.Get<Sprite>("Sticker_Glitch"))
+                .SetTags("tms_nocheststicker")
                 .SetDuplicateOddsMultiplier(1.1f) //low chance already, but once you have one the floodgates will begin...
                 .Build();
+
+            new StickerBuilder<ChestStickerData>(Info)
+                .SetEnum(stickerEnums["Chest"])
+                .SetSprite(assetMan.Get<Sprite>("Sticker_ChestClosed"))
+                .SetTags("tms_nocheststicker", "tms_dareboost")
+                .SetDuplicateOddsMultiplier(0.6f)
+                .Build().openSprite = assetMan.Get<Sprite>("Sticker_ChestOpen");
 
 
             yield return "Creating daredevil stickers...";

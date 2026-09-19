@@ -14,6 +14,7 @@ namespace TooManyStickers.Patches
         {
             if (StickerManager.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["ClearVision"]) > 0)
             {
+                float clearVisionValue = Mathf.Max(1f - StickerManager.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["ClearVision"]) * 0.25f, 0f);
                 if (____propertyBlock == null)
                 {
                     ____propertyBlock = new MaterialPropertyBlock();
@@ -21,7 +22,7 @@ namespace TooManyStickers.Patches
                 foreach (Renderer renderer in ___renderer)
                 {
                     renderer.GetPropertyBlock(____propertyBlock);
-                    ____propertyBlock.SetFloat("_PercentInvisible", 0f);
+                    ____propertyBlock.SetFloat("_PercentInvisible", Mathf.Min(____propertyBlock.GetFloat("_PercentInvisible"), clearVisionValue));
                     renderer.SetPropertyBlock(____propertyBlock);
                 }
             }

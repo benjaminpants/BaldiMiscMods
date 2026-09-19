@@ -20,6 +20,7 @@ namespace TooManyStickers
         public override BooleanHandshake CanBeCovered(StickerStateData thisSticker, StickerStateData coveringSticker)
         {
             int index = Array.FindIndex(Singleton<StickerManager>.Instance.activeStickerData, x => x == thisSticker);
+            if (index == -1) return BooleanHandshake.TrueIfAgree;
             CalculateBoost(index, Singleton<StickerManager>.Instance.activeStickerData, new bool[Singleton<StickerManager>.Instance.activeStickerData.Length], out StickerStateData landedOn, out _);
             if (landedOn == null) return BooleanHandshake.TrueIfAgree;
             return StickerMetaStorage.Instance.Get(landedOn.sticker).value.CanBeCovered(landedOn, coveringSticker);

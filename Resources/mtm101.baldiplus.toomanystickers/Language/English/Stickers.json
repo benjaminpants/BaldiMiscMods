@@ -29,7 +29,7 @@
 {"key":"StickerTitle_ShorterEvents","value":"Shorter Events"},
 {"key":"StickerDescription_ShorterEvents","value":"Each sticker reduces the time of every random event by 20%."},
 {"key":"StickerTitle_IceEyes","value":"Ice Eyes"},
-{"key":"StickerDescription_IceEyes","value":"NPCs that you look at will be slowed down.\nEach sticker adds 10% to the speed reduction."},
+{"key":"StickerDescription_IceEyes","value":"NPCs that you look at will be slowed down.\nEach sticker adds 12.5% to the speed reduction."},
 {"key":"StickerTitle_MoveResist","value":"Tough Feet"},
 {"key":"StickerDescription_MoveResist","value":"The strength of all push forces and speed reductions are reduced by 10%."},
 {"key":"StickerTitle_SightlessBonus","value":"Stealth Bonus"},
@@ -39,9 +39,12 @@
 {"key":"StickerTitle_DimmerLights","value":"Dimmer Lights"},
 {"key":"StickerDescription_DimmerLights","value":"The strength of all lights is reduced by 4, with an additional 1 per sticker.\nMust be applied before exploring\na level for the first time in a run to take effect.\nCannot be removed if the current level has already been generated."},
 {"key":"StickerTitle_ClearVision","value":"Goggles"},
-{"key":"StickerDescription_ClearVision","value":"Allows seeing hidden npcs.\nIncreases the visual brightness by 8% per sticker.\nPushes fog back 2 tiles per sticker."},
+{"key":"StickerDescription_ClearVision","value":"Increases visibility of hidden NPCs by 25%.\nIncreases the visual brightness by 8% per sticker.\nPushes fog back 2 tiles per sticker."},
 {"key":"StickerTitle_ItemSpeed","value":"Item Accelerator"},
 {"key":"StickerDescription_ItemSpeed","value":"Increases the movement speed of all items by 25%."},
+{"key":"StickerTitle_Chest","value":"Chest"},
+{"key":"StickerDescription_Chest","value":"Can fit 2 stickers inside.\nPlace ontop of an existing sticker to put it into the chest.\nPlace a sticker inside to put it in the chest."},
+{"key":"StickerDescriptionShort_Chest","value":"Can fit 2 stickers inside."},
 
 
 {"key":"Desc_StickerPack_Daredevil","value":"Daredevil Sticker Pack\nContains 3 rarer stickers, with a chance to give dangerous stickers you do not want..."},

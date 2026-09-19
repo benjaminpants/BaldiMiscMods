@@ -82,6 +82,16 @@ namespace TooManyStickers
             Singleton<StickerManager>.Instance.OnStickerApplied += RefreshClearVision;
         }
 
+        void Update()
+        {
+            PlayerManager pm = Singleton<CoreGameManager>.Instance.GetPlayer(0);
+            if (pm == null) return;
+            if (pm.Disobeying)
+            {
+                secondsRuleViolating += Time.deltaTime;
+            }
+        }
+
         void OnDestroy()
         {
 
@@ -92,7 +102,7 @@ namespace TooManyStickers
             LightingController[,] lightMap = (LightingController[,])_lightMap.GetValue(ec);
             for (int x = 0; x < lightMap.GetLength(0); x++)
             {
-                for (int y = 0; y < lightMap.GetLength(0); y++)
+                for (int y = 0; y < lightMap.GetLength(1); y++)
                 {
                     Singleton<CoreGameManager>.Instance.UpdateLighting(lightMap[x,y].Color, lightMap[x, y].position);
                 }
@@ -121,5 +131,6 @@ namespace TooManyStickers
 
         public int clearVisionLastLevel = 0;
         public float secondsSeenByBaldi = 0f;
+        public float secondsRuleViolating = 0f;
     }
 }

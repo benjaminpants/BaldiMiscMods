@@ -44,10 +44,15 @@ namespace TooManyStickers.Patches
     {
         static void Prefix(CoreGameManager __instance, ref Color color)
         {
+            float maxHideableLevel = 0.08f;
+            if (__instance.GetPlayer(0) != null)
+            {
+                maxHideableLevel = __instance.GetPlayer(0).MaxHideableLightLevel;
+            }
             float clearVisionVal = Singleton<StickerManager>.Instance.StickerValue(TooManyStickersPlugin.stickerEnums["ClearVision"]) * 0.08f;
             if (clearVisionVal > 0)
             {
-                Color toAdd = Color.Lerp(Mathf.Max(color.r, color.g, color.b) <= __instance.GetPlayer(0).MaxHideableLightLevel ? Color.yellow : Color.green, Color.white, 0.15f);
+                Color toAdd = Color.Lerp(Mathf.Max(color.r, color.g, color.b) <= maxHideableLevel ? Color.yellow : Color.green, Color.white, 0.15f);
                 toAdd *= clearVisionVal;
                 color += toAdd;
             }
