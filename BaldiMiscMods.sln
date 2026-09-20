@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TooManyStickers", "TooManyS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlusPresents", "PlusPresents\PlusPresents.csproj", "{48B51D72-15BB-4E09-ABF1-68A71FD3CCF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaytimeRebalance", "PlaytimeRebalance\PlaytimeRebalance.csproj", "{BABA705A-95D6-4D0F-82F2-C3625AF9F4D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{48B51D72-15BB-4E09-ABF1-68A71FD3CCF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48B51D72-15BB-4E09-ABF1-68A71FD3CCF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48B51D72-15BB-4E09-ABF1-68A71FD3CCF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BABA705A-95D6-4D0F-82F2-C3625AF9F4D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BABA705A-95D6-4D0F-82F2-C3625AF9F4D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BABA705A-95D6-4D0F-82F2-C3625AF9F4D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BABA705A-95D6-4D0F-82F2-C3625AF9F4D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
